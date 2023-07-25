@@ -13,7 +13,7 @@ const config = {
     allow_origin: '*',
   },
   relay: {
-    ffmpeg: './ffmpeg/bin/ffmpeg.exe',
+    ffmpeg: './ffmpeg/ffmpeg.exe',
     tasks: [
       {
         app: 'live',
