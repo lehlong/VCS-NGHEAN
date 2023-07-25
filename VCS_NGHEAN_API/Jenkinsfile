@@ -1,0 +1,15 @@
+pipeline {
+    agent any
+    stages {
+        stage('Clone') {
+            steps {
+                git credentialsId: 'cf4f9fa4-db7f-4041-8d29-9086e359f55b', url: 'https://github.com/thinhgakon/BETONG_DMS_API.git'
+			}
+        }
+				stage('Build-Deploy') {
+            steps {
+                sh '/var/www/pubic_html/jenkins-scripts/mmes-betong-api.sh'
+			}
+		}
+	}
+}

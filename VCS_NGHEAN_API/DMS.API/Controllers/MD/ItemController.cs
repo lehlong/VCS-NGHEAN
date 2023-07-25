@@ -1,0 +1,119 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using DMS.API.AppCode.Enum;
+using DMS.API.AppCode.Extensions;
+using DMS.BUSINESS.Common.Class;
+using DMS.BUSINESS.Dtos.MD;
+using DMS.BUSINESS.Services.MD;
+using DMS.BUSINESS.Filter.MD;
+
+namespace DMS.API.Controllers.MD
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class ItemController : ControllerBase
+    {
+        public readonly IItemService _service;
+        public ItemController(IItemService service)
+        {
+            _service = service;
+        }
+
+        [HttpGet("Search")]
+        public async Task<IActionResult> Search([FromQuery] ItemFilter filter)
+        {
+            var transferObject = new TransferObject();
+            var result = await _service.Search(filter);
+            if (_service.Status)
+            {
+                transferObject.Data = result;
+            }
+            else
+            {
+                transferObject.Status = false;
+                transferObject.MessageObject.MessageType = MessageType.Error;
+                transferObject.GetMessage("2000", _service);
+            }
+            return Ok(transferObject);
+        }
+
+        [HttpGet("GetAll")]
+        public async Task<IActionResult> GetAll([FromQuery] ItemFilterLite filter)
+        {
+            var transferObject = new TransferObject();
+            var result = await _service.GetAll(filter);
+            if (_service.Status)
+            {
+                transferObject.Data = result;
+            }
+            else
+            {
+                transferObject.Status = false;
+                transferObject.MessageObject.MessageType = MessageType.Error;
+                transferObject.GetMessage("2000", _service);
+            }
+            return Ok(transferObject);
+        }
+
+        [HttpPost("Insert")]
+        public async Task<IActionResult> Insert([FromBody] tblItemUpdateDto item)
+        {
+            var transferObject = new TransferObject();
+            // unit.Id = Guid.NewGuid();
+            var result = await _service.Add(item);
+            if (_service.Status)
+            {
+                transferObject.Data = result;
+                transferObject.Status = true;
+                transferObject.MessageObject.MessageType = MessageType.Success;
+                transferObject.GetMessage("0100", _service);
+            }
+            else
+            {
+                transferObject.Status = false;
+                transferObject.MessageObject.MessageType = MessageType.Error;
+                transferObject.GetMessage("0101", _service);
+            }
+            return Ok(transferObject);
+        }
+
+        [HttpPut("Update")]
+        public async Task<IActionResult> Update([FromBody] tblItemUpdateDto item)
+        {
+            var transferObject = new TransferObject();
+            await _service.Update(item);
+            if (_service.Status)
+            {
+                transferObject.Status = true;
+                transferObject.MessageObject.MessageType = MessageType.Success;
+                transferObject.GetMessage("0103", _service);
+            }
+            else
+            {
+                transferObject.Status = false;
+                transferObject.MessageObject.MessageType = MessageType.Error;
+                transferObject.GetMessage("0104", _service);
+            }
+            return Ok(transferObject);
+        }
+
+        [HttpDelete("Delete/{code}")]
+        public async Task<IActionResult> Delete([FromRoute] string code)
+        {
+            var transferObject = new TransferObject();
+            await _service.Delete(code);
+            if (_service.Status)
+            {
+                transferObject.Status = true;
+                transferObject.MessageObject.MessageType = MessageType.Success;
+                transferObject.GetMessage("0105", _service);
+            }
+            else
+            {
+                transferObject.Status = false;
+                transferObject.MessageObject.MessageType = MessageType.Error;
+                transferObject.GetMessage("0106", _service);
+            }
+            return Ok(transferObject);
+        }
+    }
+}
