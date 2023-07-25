@@ -1,0 +1,228 @@
+<main class="main-title">
+  <div class="title-page">
+    <span class="card-title">
+      <i class="bi bi-person"></i>
+      Quản lý trang cá nhân
+    </span>
+  </div>
+</main>
+<main id="main" class="main">
+  <section class="section profile">
+    <div class="row">
+      <div class="col-xl-12" style="padding: 0 36px;">
+        <!--  -->
+        <div class="mt-3">
+          <div>
+            <ul class="nav nav-tabs nav-tabs-bordered">
+              <li class="nav-item">
+                <button
+                  (click)="changeTab(1)"
+                  class="nav-link w-100"
+                  [class.active]="currentTab === 1"
+                  type="button"
+                  role="tab"
+                  aria-selected="false"
+                  tabindex="-1">
+                  Tổng quan
+                </button>
+              </li>
+
+              <li class="nav-item">
+                <button
+                  (click)="changeTab(2)"
+                  class="nav-link w-100"
+                  [class.active]="currentTab === 2"
+                  type="button"
+                  role="tab"
+                  aria-selected="false"
+                  tabindex="-1">
+                  Chỉnh sửa
+                </button>
+              </li>
+
+              <li class="nav-item">
+                <button
+                  (click)="changeTab(3)"
+                  class="nav-link w-100"
+                  [class.active]="currentTab === 3"
+                  type="button"
+                  role="tab"
+                  aria-selected="false"
+                  tabindex="-1">
+                  Đổi mật khẩu
+                </button>
+              </li>
+            </ul>
+            <div class="tab-content pt-3">
+              <div class="tab-pane fade show active profile-overview col-8" *ngIf="currentTab === 1">
+                <h6 class="card-title">Chi tiết trang cá nhân</h6>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label-text">Tên đăng nhập</div>
+                  <div class="col-lg-9 col-md-8">{{userName}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label-text">Họ Tên</div>
+                  <div class="col-lg-9 col-md-8">{{fullName}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label-text">Địa chỉ</div>
+                  <div class="col-lg-9 col-md-8">{{address}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label-text">Số điện thoại</div>
+                  <div class="col-lg-9 col-md-8">{{phoneNumber}}</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label-text">Email</div>
+                  <div class="col-lg-9 col-md-8">{{email}}</div>
+                </div>
+              </div>
+
+              <div class="tab-pane fade show active profile-overview col-8" *ngIf="currentTab === 2">
+                <h6 class="card-title">Cập nhật trang cá nhân</h6>
+                <form [formGroup]="profileForm" (ngSubmit)="onEdit()">
+                  <div class="row mb-3">
+                    <label for="userName" class="col-lg-3 col-md-4 label-text">Tên đăng nhập</label>
+                    <div class="col-lg-9 col-md-8">
+                      <input name="userName" type="text" class="form-control" id="userName" 
+                      formControlName="userName"
+                      [readonly]= 'true'
+                      />
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="fullName" class="col-lg-3 col-md-4 label-text">Họ Tên</label>
+                    <div class="col-lg-9 col-md-8">
+                      <input name="fullName" type="text" class="form-control" id="fullName" 
+                      formControlName="fullName"
+                      [ngClass]="{'is-invalid': submitted && f['fullName'].errors}"
+                      />
+                      <div *ngIf="submitted && f['fullName'].errors" class="invalid-feedback">
+                        <div *ngIf="f['fullName']['errors']['required']">Không được để trống</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="address" class="col-lg-3 col-md-4 label-text">Địa chỉ</label>
+                    <div class="col-lg-9 col-md-8">
+                      <input
+                        name="address"
+                        type="text"
+                        class="form-control"
+                        id="address"
+                        formControlName="address"
+                        [ngClass]="{'is-invalid': submitted && f['address'].errors}"
+                        />
+                        <div *ngIf="submitted && f['address'].errors" class="invalid-feedback">
+                          <div *ngIf="f['address']['errors']['required']">Không được để trống</div>
+                        </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="phoneNumber" class="col-lg-3 col-md-4 label-text">Số điện thoại</label>
+                    <div class="col-lg-9 col-md-8">
+                      <input name="phoneNumber" type="text" class="form-control" id="phoneNumber" 
+                       formControlName="phoneNumber"
+                       [ngClass]="{'is-invalid': submitted && f['phoneNumber'].errors}"
+                      />
+                      <div *ngIf="submitted && f['phoneNumber'].errors" class="invalid-feedback">
+                        <div *ngIf="f['phoneNumber']['errors']['required']">Không được để trống</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="email" class="col-lg-3 col-md-4 label-text">Email</label>
+                    <div class="col-lg-9 col-md-8">
+                      <input name="email" type="email" class="form-control" id="email"
+                      formControlName="email"
+                      [ngClass]="{'is-invalid': submitted && f['email'].errors}"
+                      />
+                      <div *ngIf="submitted && f['email'].errors" class="invalid-feedback">
+                        <div *ngIf="f['email']['errors']['required']">Không được để trống</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="text-left">
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="tab-pane fade show active profile-overview col-8" *ngIf="currentTab === 3">
+                <h6 class="card-title">Đổi mật khẩu</h6>
+                <form [formGroup]="changePassForm" (ngSubmit)="onChangePass()">
+                  <div class="row mb-3">
+                    <label for="currentPassword" class="col-md-4 col-lg-3 label-text">Mật khẩu hiện tại</label>
+                    <div class="col-lg-9 col-md-8">
+                      <div class="input-with-icon">
+                        <input name="oldPassword" [type]="currentPassType" class="form-control" id="currentPassword" 
+                          formControlName="oldPassword"
+                          [ngClass]="{'invalid': submitted && _f['oldPassword'].errors}"
+                        />
+                        <i class="bi bi-eye" *ngIf="isShowPass" (click)="handleTogglePass('password')"></i>
+                        <i class="bi bi-eye-slash" *ngIf="!isShowPass" (click)="handleTogglePass('password')"></i>    
+                      </div>
+                      <div *ngIf="submitted && _f['oldPassword'].errors" class="invalid-text">
+                        <div *ngIf="_f['oldPassword']['errors']['required']">Không được để trống</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="newPassword" class="col-md-4 col-lg-3 label-text">Mật khẩu mới</label>
+                    <div class="col-lg-9 col-md-8">
+                      <div class="input-with-icon">
+                        <input name="newPassword" [type]="newPassType" class="form-control" id="newPassword" 
+                        formControlName="newPassword"
+                        [ngClass]="{'invalid': submitted && _f['newPassword'].errors}"
+                        />
+                        <i class="bi bi-eye" *ngIf="isShowNewPass" (click)="handleTogglePass('newpassword')"></i>
+                        <i class="bi bi-eye-slash" *ngIf="!isShowNewPass" (click)="handleTogglePass('newpassword')"></i>    
+                      </div>
+                      <div *ngIf="submitted && _f['newPassword'].errors" class="invalid-text">
+                        <div *ngIf="_f['newPassword']['errors']['required']">Không được để trống</div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="renewPassword" class="col-md-4 col-lg-3 label-text">Nhập lại mật khẩu mới</label>
+                    <div class="col-lg-9 col-md-8">
+                      <div class="input-with-icon">
+                        <input name="repassword" [type]="rePassType" class="form-control" id="renewPassword"
+                        formControlName="rePassword"
+                        [ngClass]="{'invalid': submitted && _f['rePassword'].errors}"
+                        />
+                        <i class="bi bi-eye" *ngIf="isShowRePass" (click)="handleTogglePass('repassword')"></i>
+                        <i class="bi bi-eye-slash" *ngIf="!isShowRePass" (click)="handleTogglePass('repassword')"></i>    
+                      </div>
+                      <div *ngIf="submitted && _f['rePassword'].errors" class="invalid-text">
+                        <div *ngIf="_f['rePassword']['errors']['required']">Không được để trống</div>
+                      </div>
+                      <div *ngIf="submitted && _f['rePassword'].errors" class="invalid-text">
+                        <div *ngIf="_f['rePassword']['errors']['mismatch']">Mật khẩu không trùng khớp</div>
+                      </div>     
+                    </div>
+                  </div>
+
+                  <div class="text-left">
+                    <button type="submit" class="btn btn-primary">Lưu thay đổi</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--  -->
+      </div>
+    </div>
+  </section>
+</main>

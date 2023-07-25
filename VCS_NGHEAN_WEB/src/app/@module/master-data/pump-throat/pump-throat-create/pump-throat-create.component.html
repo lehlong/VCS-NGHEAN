@@ -1,0 +1,107 @@
+<div class="card" style="height: calc(100vh - 50px)">
+    <div class="card-body">
+      <div class="d-flex-wrap d-gap d-space-bw border-bottom pt-3 header-drawer">
+        <div class="card-title mb-2 p-0">
+          <i class="bi bi-plus-lg"></i>
+          TẠO MỚI HỌNG BƠM
+        </div>
+        <div class="d-flex-wrap d-gap">
+          <div class="mb-3">
+            <button (click)="onCreate()" type="button" class="btn btn-primary">
+              <i class="bi bi-check2-all"></i> Lưu thông tin
+            </button>
+            &nbsp;
+          </div>
+          <div class="mb-3">
+            <button type="button" (click)="close()" class="btn btn-warning"><i class="bi bi-x-circle"></i> Đóng</button>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3">
+        <form [formGroup]="PumpThroatForm" (ngSubmit)="onCreate()">
+            <div>
+                <label class="col-form-label">Mã<span class="text-danger ms-1">*</span></label>
+                <div>
+                  <input
+                    [ngClass]="{'is-invalid': submitted && f['code'].errors}"
+                    type="text"
+                    class="form-control"
+                    formControlName="code" />
+                </div>
+              </div>
+          <div>
+            <label class="col-form-label">Tên<span class="text-danger ms-1">*</span></label>
+            <div>
+              <input
+                [ngClass]="{'is-invalid': submitted && f['name'].errors}"
+                type="text"
+                class="form-control"
+                formControlName="name" />
+            </div>
+          </div>
+
+          <div>
+            <label for="inputText" class="col-form-label">Thuộc khu vực<span class="text-danger ms-1">*</span></label>
+            <div>
+              <app-input-custom [className]="{ 'is-invalid': submitted && f['areaCode'].errors }" [options]="optionsArea"
+                [prop]="'name'" (valueChange)="onChangeArea($event)" (selectItem)="onSelectItemArea($event)">
+              </app-input-custom>
+              <div *ngIf="submitted && f['areaCode'].errors" class="text-error">
+                <div *ngIf="f['areaCode']['errors']['required']">Không được để trống</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label for="inputText" class="col-form-label">Thuộc giàn bơm<span class="text-danger ms-1">*</span></label>
+            <div>
+              <app-input-custom [className]="{ 'is-invalid': submitted && f['pumpRigCode'].errors }" [options]="optionsPumpRig"
+                [prop]="'name'" (valueChange)="onChangePumpRig($event)" (selectItem)="onSelectItemPumpRig($event)">
+              </app-input-custom>
+              <div *ngIf="submitted && f['pumpRigCode'].errors" class="text-error">
+                <div *ngIf="f['pumpRigCode']['errors']['required']">Không được để trống</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label for="inputText" class="col-form-label">Loại hàng<span class="text-danger ms-1">*</span></label>
+            <div>
+              <app-input-custom [className]="{ 'is-invalid': submitted && f['goodsCode'].errors }" [options]="optionsGoods"
+                [prop]="'name'" (valueChange)="onChangeGoods($event)" (selectItem)="onSelectItemGoods($event)">
+              </app-input-custom>
+              <div *ngIf="submitted && f['goodsCode'].errors" class="text-error">
+                <div *ngIf="f['goodsCode']['errors']['required']">Không được để trống</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="col-form-label">Công suất<span class="text-danger ms-1">*</span></label>
+            <div>
+              <input
+                [ngClass]="{'is-invalid': submitted && f['wattage'].errors}"
+                type="number"
+                class="form-control"
+                formControlName="wattage" />
+            </div>
+          </div>
+  
+          <div>
+            <label for="inputText" class="col-form-label nowrap">Trạng thái</label>
+            <div class="d-flex d-gap-20 w-100 mt-0">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="isActive" formControlName="isActive" [value]="true" />
+                <label class="form-check-label" for="isActive"> Kích hoạt </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="isActive" formControlName="isActive" [value]="false" />
+                <label class="form-check-label" for="isActive"> Khoá </label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

@@ -1,0 +1,485 @@
+<div class="card order-edit-container" style="height: calc(100vh - 50px)" [style.width]="screenWidth">
+  <div class="card-body">
+    <div class="d-flex-wrap d-gap d-space-bw border-bottom pt-3 header-drawer">
+      <div class="card-title mb-2 p-0">
+        <i class="bi bi-plus-lg"></i>
+        {{title}}
+      </div>
+      <div class="d-flex-wrap d-gap">
+        <div *ngIf="stateDetail == STATE_ORDER['CHUA_XAC_NHAN'].value && openEdit" class="mb-3">
+          <button
+            [attr.disabled]="stateDetail == STATE_ORDER['CHUA_XAC_NHAN'].value ? null : ''"
+            (click)="ConfirmState()"
+            type="button"
+            [style.color]="STATE_ORDER['DA_XAC_NHAN'].color"
+            [style.background]="STATE_ORDER['DA_XAC_NHAN'].background"
+            class="btn"
+            submitForm>
+            <i class="bi bi-check-circle"></i> Xác nhận
+          </button>
+        </div>
+        <!-- <div *ngIf="stateDetail == STATE_ORDER['CHUA_XAC_NHAN'].value && currentTab == 1" class="mb-3">
+          <button (click)="UpdateStep(ACTION_ORDER['TU_CHOI'].value)" type="button" class="btn btn-warning">
+            <i class="bi bi-dash-circle"></i> Từ chối
+          </button>
+        </div> -->
+        <div class="mb-3" *ngIf="showButton.cancel && openEdit">
+          <button
+            (click)="CancelState()"
+            type="button"
+            [style.color]="STATE_ORDER['DA_BI_HUY'].color"
+            [style.background]="STATE_ORDER['DA_BI_HUY'].background"
+            class="btn">
+            <i class="bi bi-trash"></i> Hủy đơn
+          </button>
+        </div>
+        <div class="mb-3" *ngIf="showButton.complete && openEdit">
+          <button
+            (click)="CompleteState()"
+            type="button"
+            [style.color]="STATE_ORDER['DA_HOAN_THANH'].color"
+            [style.background]="STATE_ORDER['DA_HOAN_THANH'].background"
+            class="btn">
+            <i class="bi bi-check-circle"></i> Hoàn thành
+          </button>
+        </div>
+        <div class="mb-3" *ngIf="openEdit">
+          <button (click)="showEdit(false)" type="button" class="btn btn-primary">
+            <i class="bi bi-eye"></i> Chi tiết
+          </button>
+        </div>
+        <div class="mb-3" *ngIf="showButton.edit && !openEdit">
+          <button (click)="showEdit(true)" type="button" class="btn btn-primary">
+            <i class="bi bi-pencil"></i> Chỉnh sửa
+          </button>
+        </div>
+        <div class="mb-3" *ngIf="showButton.save && openEdit">
+          <button (click)="onEdit()" type="button" class="btn btn-primary" submitForm>
+            <i class="bi bi-check2-all"></i> Lưu thông tin
+          </button>
+        </div>
+        <div class="mb-3">
+          <button type="button" (click)="close()" class="btn btn-warning"><i class="bi bi-x-circle"></i> Đóng</button>
+        </div>
+      </div>
+    </div>
+    <div class="pb-3 mt-2">
+      <form [formGroup]="orderForm" (ngSubmit)="onEdit()">
+        <div *ngIf="openEdit" class="row g-3">
+          <div class="text-lg col-md-12 fw-bold mt-3">
+            <i class="bi bi-paint-bucket"></i>
+            Máy trộn
+          </div>
+          <div class="col-md-12">
+            <label class="form-label">Chọn máy trộn</label>
+            <select class="form-select" aria-label="Chọn máy trộn" formControlName="mixerCode">
+              <option value="" selected>Chọn máy trộn</option>
+              <option *ngFor="let item of listMixerAll" [value]="item.code">{{ item.name }}</option>
+            </select>
+          </div>
+          <div class="text-lg col-md-12 fw-bold">
+            <i class="bi bi-person"></i>
+            Khách hàng
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Khách hàng<span class="text-danger ms-1">*</span></label>
+            <input
+              [ngClass]="{'is-invalid': submitted && f['partnerName'].errors}"
+              type="text"
+              placeholder="Khách hàng"
+              aria-label="Khách hàng"
+              class="form-control"
+              (input)="onChangePartner($event)"
+              [matAutocomplete]="partnerRef"
+              formControlName="partnerName" />
+            <mat-autocomplete #partnerRef="matAutocomplete">
+              <mat-option
+                *ngFor="let partner of listPartnerFilter"
+                [value]="partner.name"
+                (onSelectionChange)="selectPartner(partner, $event)">
+                <span>
+                  {{ partner.name }}
+                </span>
+              </mat-option>
+            </mat-autocomplete>
+            <div *ngIf="submitted && f['partnerName'].errors" class="invalid-feedback">
+              <div *ngIf="f['partnerName']['errors']['required']">Không được để trống</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Ghi chú</label>
+            <input type="text" class="form-control" formControlName="partnerNote" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Địa chỉ</label>
+            <input type="text" class="form-control" formControlName="address" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Số điện thoại</label>
+            <input type="number" class="form-control" formControlName="phoneNumber" />
+          </div>
+
+          <div class="text-lg col-md-12 fw-bold">
+            <i class="bi bi-info-circle"></i>
+            Thông tin công trình
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Ngày đổ<span class="text-danger ms-1">*</span></label>
+            <input
+              [ngClass]="{'is-invalid': submitted && f['pourDate'].errors}"
+              type="date"
+              class="form-control"
+              formControlName="pourDate" />
+            <div *ngIf="submitted && f['pourDate'].errors" class="invalid-feedback">
+              <div *ngIf="f['pourDate']['errors']['required']">Không được để trống</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Giờ đổ<span class="text-danger ms-1">*</span></label>
+            <input
+              [ngClass]="{'is-invalid': submitted && f['pourTime'].errors}"
+              type="time"
+              class="form-control"
+              formControlName="pourTime" />
+            <div *ngIf="submitted && f['pourTime'].errors" class="invalid-feedback">
+              <div *ngIf="f['pourTime']['errors']['required']">Không được để trống</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Khu vực<span class="text-danger ms-1">*</span></label>
+            <select [ngClass]="{'is-invalid': submitted && f['areaCode'].errors}" class="form-select"
+              aria-label="Khu vực" formControlName="areaCode">
+              <option value="" selected>Khu vực</option>
+              <option *ngFor="let item of listAreaAll" [value]="item.code">{{ item.name }}</option>
+            </select>
+            <div *ngIf="submitted && f['areaCode'].errors" class="invalid-feedback">
+              <div *ngIf="f['areaCode']['errors']['required']">Không được để trống</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Loại đơn hàng<span class="text-danger ms-1">*</span></label>
+            <select
+              [ngClass]="{'is-invalid': submitted && f['orderTypeCode'].errors}"
+              class="form-select"
+              aria-label="Loại đơn hàng"
+              formControlName="orderTypeCode">
+              <option value="" selected>Loại đơn hàng</option>
+              <option *ngFor="let item of listOrderTypeAll" [value]="item.code">{{ item.name }}</option>
+            </select>
+            <div *ngIf="submitted && f['orderTypeCode'].errors" class="invalid-feedback">
+              <div *ngIf="f['orderTypeCode']['errors']['required']">Không được để trống</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Hình thức đổ<span class="text-danger ms-1">*</span></label>
+            <select
+              [ngClass]="{'is-invalid': submitted && f['pourTypeCode'].errors}"
+              class="form-select"
+              aria-label="Hình thức đổ"
+              formControlName="pourTypeCode">
+              <option value="" selected>Hình thức đổ</option>
+              <option *ngFor="let item of listPourTypeAll" [value]="item.code">{{ item.name }}</option>
+            </select>
+            <div *ngIf="submitted && f['pourTypeCode'].errors" class="invalid-feedback">
+              <div *ngIf="f['pourTypeCode']['errors']['required']">Không được để trống</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Hạng mục công trình<span class="text-danger ms-1">*</span></label>
+            <input
+              [ngClass]="{'is-invalid': submitted && f['pourCategory'].errors}"
+              type="text"
+              class="form-control"
+              formControlName="pourCategory" />
+            <div *ngIf="submitted && f['pourCategory'].errors" class="invalid-feedback">
+              <div *ngIf="f['pourCategory']['errors']['required']">Không được để trống</div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <label class="form-label">Địa điểm đổ<span class="text-danger ms-1">*</span></label>
+            <input
+              [ngClass]="{'is-invalid': submitted && f['pourLocation'].errors}"
+              type="text"
+              class="form-control"
+              formControlName="pourLocation" />
+            <div *ngIf="submitted && f['pourLocation'].errors" class="invalid-feedback">
+              <div *ngIf="f['pourLocation']['errors']['required']">Không được để trống</div>
+            </div>
+          </div>
+          <div class="text-lg col-md-12 fw-bold">
+            <i class="bi bi-box"></i>
+            Hàng hoá chính
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Sản phẩm<span class="text-danger ms-1">*</span></label>
+            <input
+              [ngClass]="{'is-invalid': submitted && f['itemNameMain'].errors}"
+              type="text"
+              placeholder="Sản phẩm"
+              aria-label="Sản phẩm"
+              class="form-control"
+              (input)="onChangeItemMain($event)"
+              [matAutocomplete]="itemCodeMainRef"
+              formControlName="itemNameMain" />
+            <mat-autocomplete #itemCodeMainRef="matAutocomplete">
+              <mat-option
+                *ngFor="let item of listItemFilterMain"
+                [value]="item.name"
+                (onSelectionChange)="selectItemMain(item, $event)">
+                <span>
+                  {{ item.name }}
+                </span>
+              </mat-option>
+            </mat-autocomplete>
+            <div *ngIf="submitted && f['itemNameMain'].errors" class="invalid-feedback">
+              <div *ngIf="f['itemNameMain']['errors']['required']">Không được để trống</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Đơn vị tính</label>
+            <input type="text" class="form-control" formControlName="unitCodeMain" />
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Thành phần cát chính<span class="text-danger ms-1">*</span></label>
+            <select
+              [ngClass]="{'is-invalid': submitted && f['sandCode'].errors}"
+              class="form-select"
+              aria-label="Thành phần cát chính"
+              formControlName="sandCode">
+              <option value="" selected>Thành phần cát chính</option>
+              <option *ngFor="let item of listSandAll" [value]="item.code">{{ item.name }}</option>
+            </select>
+            <div *ngIf="submitted && f['sandCode'].errors" class="invalid-feedback">
+              <div *ngIf="f['sandCode']['errors']['required']">Không được để trống</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Thành phần đá chính<span class="text-danger ms-1">*</span></label>
+            <select
+              [ngClass]="{'is-invalid': submitted && f['stoneCode'].errors}"
+              class="form-select"
+              aria-label="Thành phần đá chính"
+              formControlName="stoneCode">
+              <option value="" selected>Thành phần đá chính</option>
+              <option *ngFor="let item of listStoneAll" [value]="item.code">{{ item.name }}</option>
+            </select>
+            <div *ngIf="submitted && f['stoneCode'].errors" class="invalid-feedback">
+              <div *ngIf="f['stoneCode']['errors']['required']">Không được để trống</div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Khối lượng đặt<span class="text-danger ms-1">*</span></label>
+            <input
+              [ngClass]="{'is-invalid': submitted && f['orderNumberMain'].errors}"
+              type="text"
+              class="form-control"
+              formControlName="orderNumberMain"
+              appCommaSeparated />
+            <div *ngIf="submitted && f['orderNumberMain'].errors" class="invalid-feedback">
+              <div *ngIf="f['orderNumberMain']['errors']['min'] || f['orderNumberMain']['errors']['required']">
+                Nhập khối lượng khác 0
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Độ sụt<span class="text-danger ms-1">*</span></label>
+            <input
+              [ngClass]="{'is-invalid': submitted && f['slump'].errors}"
+              type="text"
+              class="form-control"
+              formControlName="slump" />
+            <div *ngIf="submitted && f['slump'].errors" class="invalid-feedback">
+              <div *ngIf="f['slump']['errors']['required']">Không được để trống</div>
+            </div>
+          </div>
+          <div class="text-lg col-md-12 fw-bold">
+            <i class="bi bi bi-plug"></i>
+            Dịch vụ kèm theo
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Sản phẩm</label>
+            <input
+              type="text"
+              placeholder="Sản phẩm"
+              aria-label="Sản phẩm"
+              class="form-control"
+              (input)="onChangeItemSub($event)"
+              [matAutocomplete]="itemCodeSubRef"
+              formControlName="itemNameSub" />
+            <mat-autocomplete #itemCodeSubRef="matAutocomplete">
+              <mat-option
+                *ngFor="let item of listItemFilterSub"
+                [value]="item.name"
+                (onSelectionChange)="selectItemSub(item, $event)">
+                <span>
+                  {{ item.name }}
+                </span>
+              </mat-option>
+            </mat-autocomplete>
+          </div>
+          <div class="col-md-6">
+            <label class="form-label">Đơn vị tính</label>
+            <input type="text" class="form-control" formControlName="unitCodeSub" />
+          </div>
+          <div class="col-md-12">
+            <label class="form-label"
+              >Khối lượng tạo<span *ngIf="f['itemCodeSub']['value'] != ''" class="text-danger ms-1">*</span></label
+            >
+            <input
+              [ngClass]="{'is-invalid': submitted && f['orderNumberSub'].errors}"
+              type="text"
+              class="form-control"
+              formControlName="orderNumberSub"
+              appCommaSeparated />
+            <div *ngIf="submitted && f['orderNumberSub'].errors" class="invalid-feedback">
+              <div *ngIf="f['orderNumberSub']['errors']['min'] || f['orderNumberSub']['errors']['required']">
+                Nhập khối lượng khác 0
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="!openEdit" class="row g-3 detail-container">
+          <div class="main-content col-md-8 pr-2">
+            <div class="text-lg fw-bold mb-3 mt-1">
+              <i class="bi bi-box"></i>
+              Danh sách sản phẩm
+            </div>
+            <div class="wraper-table">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Tên</th>
+                    <th>Cát</th>
+                    <th>Đá</th>
+                    <th>Độ sụt</th>
+                    <th class="text-right">SL đặt</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{ orderForm.value.itemNameMain }}</td>
+                    <td>{{ orderForm.value.sandName }}</td>
+                    <td>{{ orderForm.value.stoneName }}</td>
+                    <td>{{ orderForm.value.slump }}</td>
+                    <td class="text-right" colspan="5">
+                      {{
+                        orderForm.value.orderNumberMain | number
+                      }}&nbsp;{{detailData?.orderDetails?.[0]?.item?.unit?.name || ''}}
+                    </td>
+                  </tr>
+                  <tr *ngIf="detailData?.orderDetails?.length > 1">
+                    <td>{{ orderForm.value.itemNameSub }}</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td class="text-right" colspan="5">
+                      {{
+                        orderForm.value.orderNumberSub | number
+                      }}&nbsp;{{detailData?.orderDetails?.[1]?.item?.unit?.name || ''}}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="text-lg fw-bold mb-3 mt-3">
+              <i class="bi bi-box"></i>
+              Lịch sử đơn hàng
+            </div>
+            <div class="wraper-table table-scroll">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Mã đơn hàng</th>
+                    <th>Hành động</th>
+                    <th>Thời gian thực hiện</th>
+                    <th>Trạng thái</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of detailData?.orderProcesses">
+                    <td>{{ item?.orderCode }}</td>
+                    <td>{{ item.actionCode && item.actionCode != '' ? ACTION_ORDER[item.actionCode].name : '' }}</td>
+                    <td>{{ item?.createDate | date: 'dd/MM/YYYY HH:mm' }}</td>
+                    <td *ngIf="item.state && item.state != ''" [style.color]="STATE_ORDER[item.state].background || ''">
+                      {{ STATE_ORDER[item.state].name
+                      || '' }}</td>
+                    <td *ngIf="!item.state || item.state == ''"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="info-content col-md-4">
+            <div class="list-info text-lg fw-bold">
+              <i class="bi bi-paint-bucket"></i>
+              Máy trộn
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Tên máy trộn</div>
+              <div class="value">{{ orderForm.value.mixerName }}</div>
+            </div>
+            <div class="list-info text-lg fw-bold">
+              <i class="bi bi-info-circle"></i>
+              Thông tin khách hàng
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Tên Khách hàng</div>
+              <div class="value">{{ orderForm.value.partnerName }}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Số điện thoại</div>
+              <div class="value">{{ detailData?.partner?.phoneNumber || '' }}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Địa chỉ</div>
+              <div [matTooltip]="detailData?.partner?.address || ''" matTooltipPosition="above" class="value">
+                {{detailData?.partner?.address || ''}}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Ghi chú</div>
+              <div [matTooltip]="orderForm.value.partnerNote || ''" matTooltipPosition="above" class="value">
+                {{orderForm.value.partnerNote || ''}}</div>
+            </div>
+            <div class="list-info text-lg fw-bold">
+              <i class="bi bi-info-circle"></i>
+              Thông tin công trình
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Thời gian đổ</div>
+              <div class="value">{{ orderForm.value.pourDate }}&nbsp;{{ orderForm.value.pourTime }}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Khu vực</div>
+              <div class="value">{{ orderForm.value.areaCode }}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Loại đơn hàng</div>
+              <div class="value">{{ orderForm.value.orderTypeName }}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Hình thức đổ</div>
+              <div class="value">{{ orderForm.value.pourTypeName }}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Hạng mục công trình</div>
+              <div class="value">{{ orderForm.value.pourCategory }}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Địa điểm đổ</div>
+<<<<<<< HEAD
+              <div [appEllipsis]="1" [matTooltip]="orderForm.value.pourLocation" matTooltipPosition="above"
+                [readMoreButtonStyle]="{ marginLeft: '-45px' }" class="value">
+                {{orderForm.value.pourLocation}}</div>
+=======
+              <div [matTooltip]="orderForm.value.pourLocation" matTooltipPosition="above" class="value text-hidden">
+                {{ orderForm.value.pourLocation }}
+              </div>
+>>>>>>> 5aeb2272f63f6cc8d7d096e454b7fe13b9e01224
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

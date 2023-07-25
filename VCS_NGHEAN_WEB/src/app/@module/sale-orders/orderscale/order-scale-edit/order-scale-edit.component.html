@@ -1,0 +1,143 @@
+<div class="card order-edit-container" style="height: calc(100vh - 50px)" [style.width]="screenWidth">
+  <div class="card-body">
+    <div class="d-flex-wrap d-gap d-space-bw border-bottom pt-3 header-drawer">
+      <div class="card-title mb-2 p-0">
+        <i class="bi bi-plus-lg"></i>
+        Thông tin phiếu cân
+      </div>
+      <div class="d-gap">
+        <div class="mb-3">
+          <button type="button" (click)="close()" class="btn btn-warning"><i class="bi bi-x-circle"></i> Đóng</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="pb-3 mt-2">
+      <div>
+        <div class="row g-3 detail-container">
+          <div class="main-content col-md-8 pr-2">
+            <div class="text-lg fw-bold mb-3 mt-1">
+              <i class="bi bi-box"></i>
+              Thông tin hàng hóa
+            </div>
+            <div class="wraper-table">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Mã sản phẩm</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Tỉ trọng</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{{ itemCode }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ itemNumber }}</td>
+                    <td>{{ itemProportion }}</td>
+                    <td>{{ itemPrice }}</td>
+                    <td>{{ itemMoney }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="text-lg fw-bold mb-3 mt-3">
+              <i class="bi bi-box"></i>
+              Thông tin cân hàng
+            </div>
+            <div class="wraper-table">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>STT</th>
+                    <th>Lần cân</th>
+                    <th>Thời gian cân</th>
+                    <th>Trọng lượng</th>
+                    <th>Ảnh biển số</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>1</td>
+                    <td>Cần lần 1</td>
+                    <td>{{ scale?.timeWeight1 | date : 'dd/MM/YYYY' }}</td>
+                    <td>{{ scale?.timeWeight2 | date : 'dd/MM/YYYY' }}</td>
+                    <td>{{ scale?.weight1 }}</td>
+                  </tr>
+                  <tr>
+                    <td>2</td>
+                    <td>Cần lần 2</td>
+                    <td>{{ scale?.timeWeight1 | date : 'dd/MM/YYYY' }}</td>
+                    <td>{{ scale?.timeWeight2 | date : 'dd/MM/YYYY' }}</td>
+                    <td>{{ scale?.weight1 }}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" style="text-align: right">Trọng lượng hàng</td>
+                    <td>{{ scale?.weight1 }}</td>
+                    <td>{{ scale?.weight1 }}</td>
+                  </tr>
+                  <tr>
+                    <td colspan="3" style="text-align: right">Trọng lượng quy đổi</td>
+                    <td>{{ scale?.weight1 }}</td>
+                    <td>{{ scale?.weight1 }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="info-content col-md-4">
+            <div class="list-info text-lg fw-bold">
+              <i class="bi bi-info-circle"></i>
+              Thông tin phiếu cân
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Mã phiếu cân</div>
+              <div class="value">{{ item.orderReleaseCode }}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Ngày cân hàng</div>
+              <div class="value">{{ customer.customerName }}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Phương tiện</div>
+              <div class="value">{{ vehicleCode }}</div>
+            </div>
+
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Lái xe</div>
+              <div class="value">{{ driverName }}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Mã phiếu trộn</div>
+              <div class="value">{{ orderReleaseCode }}</div>
+            </div>
+            <div class="list-info text-lg fw-bold">
+              <i class="bi bi-info-circle"></i>
+              Thông tin đơn hàng
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Ngày đặt hàng</div>
+              <div class="value">{{ customer.customerCode }}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Khách hàng</div>
+              <div class="value">{{ customer.customerName }}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Địa điểm đổ</div>
+              <div class="value">{{ customer.customerPhone || '' }}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Số điện thoại</div>
+              <div class="value">{{ customer.customerPhone || '' }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

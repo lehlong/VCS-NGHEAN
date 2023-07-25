@@ -1,0 +1,142 @@
+<div class="card">
+  <div class="card-body container-page">
+    <div class="d-flex flex-wrap d-gap d-space-bw mt-3">
+      <div class="card-title p-0 mb-1">
+        <i class="bi bi-journal-text"></i>
+        Chốt công nợ
+      </div>
+    </div>
+    <div class="d-flex d-gap-2 flex-wrap mt-1">
+      <div class="d-flex flex-wrap d-gap-2">
+        <div>
+          <input [(ngModel)]="filter.FromDate" type="date" class="form-control" placeholder="Từ ngày" />
+        </div>
+        <div>
+          <input [(ngModel)]="filter.ToDate" type="date" class="form-control" placeholder="Đến ngày" />
+        </div>
+      </div>
+
+      <div class="flex-row flex-grow-1 multi-dropdown">
+        <span *ngIf="selectedStates.length == 0" class="dropdown-value">Trạng thái</span>
+        <ng-container *ngIf="selectedStates.length >= 1">
+          <div class="dropdown-value">
+            <span *ngFor="let item of selectedStates" style="white-space: nowrap"> {{ item.name }},&nbsp; </span>
+          </div>
+        </ng-container>
+        <mat-select class="form-select" placeholder="Trạng thái" [(value)]="selectedStates" multiple>
+          <mat-option *ngFor="let state of list_state" [value]="state">{{ state?.name }}</mat-option>
+        </mat-select>
+      </div>
+
+      <div class="d-flex flex-row flex-grow-1">
+        <input type="text" placeholder="Khách hàng" aria-label="Khách hàng" class="form-control"
+          (input)="onChangePartner($event)" [matAutocomplete]="auto1" [(ngModel)]="partnerSelected.name" />
+        <mat-autocomplete #auto1="matAutocomplete">
+          <mat-option *ngFor="let partner of listPartnerFilter" [value]="partner.name"
+            (onSelectionChange)="selectPartner(partner, $event)" [class.selected]="partner.selected">
+            <span>
+              {{ partner.name }}
+            </span>
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+
+      <div class="d-flex flex-row flex-grow-1">
+        <input type="text" placeholder="Hàng hoá" aria-label="Hàng hoá" class="form-control"
+          (input)="onChangeItem($event)" [matAutocomplete]="auto2" [(ngModel)]="itemSelected.name" />
+        <mat-autocomplete #auto2="matAutocomplete">
+          <mat-option *ngFor="let item of listItemFilter" [value]="item.name"
+            (onSelectionChange)="selectItem(item, $event)" [class.selected]="item.selected">
+            <span>
+              {{ item.name }}
+            </span>
+          </mat-option>
+        </mat-autocomplete>
+      </div>
+
+      <div class="d-flex flex-row flex-grow-3">
+        <div class="input-group search-box">
+          <input (keyup.enter)="search()" type="text" class="form-control" [(ngModel)]="filter.keyWord"
+            placeholder="Nhập từ khóa tìm kiếm" />
+          <span (click)="search()" class="input-group-text"><i class="bi bi-search"></i></span>
+          <span (click)="reload()" class="input-group-text"><i class="bi bi-arrow-clockwise"></i></span>
+        </div>
+      </div>
+    </div>
+    <div class="list-container border-top border-bottom mb-3 mt-1">
+      <table mat-table [dataSource]="paginationResult.data"
+        *ngIf="paginationResult && paginationResult.data?.length > 0" class="table table-hover table-click-row">
+        <ng-container matColumnDef="index">
+          <th mat-header-cell *matHeaderCellDef class="text-center">STT</th>
+          <td mat-cell *matCellDef="let element; let i = index" class="text-center">
+            {{ (paginationResult.currentPage - 1) * paginationResult.pageSize + i + 1 }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="code">
+          <th mat-header-cell *matHeaderCellDef>Mã đơn hàng</th>
+          <td mat-cell *matCellDef="let element">
+            <span href="#" (click)="openEdit(element)" class="cursor-pointer text-primary">{{ element.code }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="createDate">
+          <th mat-header-cell *matHeaderCellDef>Ngày đặt hàng</th>
+          <td mat-cell *matCellDef="let element">{{ element.createDate | date : 'dd/MM/YYYY' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="pourDate">
+          <th mat-header-cell *matHeaderCellDef>Ngày giờ đổ</th>
+          <td mat-cell *matCellDef="let element">{{
+            element.pourDate | date : 'dd/MM/YYYY h:m' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="itemName">
+          <th mat-header-cell *matHeaderCellDef>Hàng hoá</th>
+          <td mat-cell *matCellDef="let element">{{ element.itemName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="orderNumber">
+          <th mat-header-cell *matHeaderCellDef class="text-right">Lượng đặt</th>
+          <td mat-cell *matCellDef="let element" class="text-right">{{ element.orderNumber | number }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="pourLocation">
+          <th mat-header-cell *matHeaderCellDef>Địa điểm đổ</th>
+          <td mat-cell *matCellDef="let element">{{ element.pourLocation }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="partnerName">
+          <th mat-header-cell *matHeaderCellDef>Khách hàng</th>
+          <td mat-cell *matCellDef="let element">{{ element.partnerName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="phoneNumber">
+          <th mat-header-cell *matHeaderCellDef>Số điện thoại</th>
+          <td mat-cell *matCellDef="let element">{{ element.phoneNumber }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="state">
+          <th mat-header-cell *matHeaderCellDef class="text-center">Trạng thái</th>
+          <td mat-cell *matCellDef="let element" class="text-center">
+            <div *ngIf="state_debt[element?.state]" class="label-status"
+              [style.background]="state_debt[element?.state].background"
+              [style.color]="state_debt[element?.state].color">
+              {{ state_debt[element?.state].name }}
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="border-bottom"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns" (dblclick)="openEdit(row)"
+          [ngClass]="{'selected-row': row.code === filter.code}"></tr>
+      </table>
+      <app-empty *ngIf="!paginationResult || paginationResult.data?.length == 0"></app-empty>
+    </div>
+    <div class="float-end" *ngIf="paginationResult">
+      <app-pagination [pageSize]="paginationResult.pageSize" [totalRecord]="paginationResult.totalRecord"
+        [totalPage]="paginationResult.totalPage" [(page)]="paginationResult.currentPage"
+        (pageChange)="onChangePage($event)" (pageSizeChange)="pageSizeChange($event)"></app-pagination>
+    </div>
+  </div>
+</div>

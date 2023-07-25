@@ -1,0 +1,32 @@
+<nav *ngIf="totalRecord > 0" class="pagination-container" aria-label="Page navigation example">
+    <div class="total-record">Total {{totalRecord}} record</div>
+    <ul *ngIf="totalPage > 1" class="pagination">
+        <li (click)="decreasePage()" class="page-item" [ngClass]="page === 1 ? 'disabled' : ''">
+            <a class="page-link" aria-label="Previous">
+                <span aria-hidden="true">«</span>
+            </a>
+        </li>
+        <li (click)="goToPage(pageNumber)" *ngFor="let pageNumber of visiblePages, index as i" class="page-item"
+            [class.active]="pageNumber === page">
+            <ng-container *ngIf="pageNumber === -1"><div class="three-dots">...</div></ng-container>
+            <ng-container *ngIf="pageNumber !== -1">
+                <div class="page-link">{{pageNumber}}</div>
+            </ng-container>
+        </li>
+        <li (click)="increasePage()" class="page-item" [ngClass]="page === totalPage ? 'disabled' : ''">
+            <a class="page-link" aria-label="Next">
+                <span aria-hidden="true">»</span>
+            </a>
+        </li>
+    </ul>
+    <div class="page-size">
+        <select [(ngModel)]="pageSize" (change)="pageSizeChanged()">
+            <option *ngFor="let size of pageSizes" [value]="size">{{ size }} / page</option>
+          </select>
+    </div>
+    <div *ngIf="totalPage > 1 && totalPage > pagesToShow" class="go-to-page">
+        Go to
+        <input type="number" (blur)="onInputBlur($event)" />
+        Page
+    </div>
+</nav>

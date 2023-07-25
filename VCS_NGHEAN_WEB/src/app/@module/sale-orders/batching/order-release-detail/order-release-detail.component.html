@@ -1,0 +1,179 @@
+<div class="card order-edit-container" style="height: calc(100vh - 50px)">
+  <div class="card-body">
+    <div class="d-flex-wrap d-gap d-space-bw border-bottom pt-3 position-sticky">
+      <div class="card-title p-0">
+        <i class="bi bi-plus-lg"></i>
+        Chi tiết đơn hàng
+      </div>
+      <div *ngIf="dataDetail" class="d-flex-wrap d-gap">
+        <div class="mb-3" *ngIf="!isDisableButton()">
+          <button type="button" class="btn btn-success" (click)="onCreateOrderRelease()">
+            <i class="bi bi-plus-lg"></i> Tạo phiếu trộn
+          </button>
+        </div>
+        <div class="mb-3">
+          <button type="button" (click)="close()" class="btn btn-warning"><i class="bi bi-x-circle"></i> Đóng</button>
+        </div>
+      </div>
+    </div>
+    <div class="pb-3">
+      <form *ngIf="orderForm" [formGroup]="orderForm">
+        <div>
+          <div class="tab-content pt-2">
+            <div *ngIf="currentTab === 1" class="fade show active" role="tabpanel" aria-labelledby="info-tab">
+              <div class="row g-3">
+                <div class="text-lg col-md-12 fw-bold">
+                  <i class="bi bi-person"></i>
+                  Khách hàng
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Khách hàng</label>
+                  <input type="text" placeholder="Khách hàng" aria-label="Khách hàng" class="form-control"
+                    formControlName="partnerName" readonly />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Ghi chú</label>
+                  <input type="text" class="form-control" formControlName="partnerNote" readonly />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Địa chỉ</label>
+                  <input type="text" class="form-control" formControlName="address" readonly />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Số điện thoại</label>
+                  <input type="number" class="form-control" formControlName="phoneNumber" readonly />
+                </div>
+
+                <div class="text-lg col-md-12 fw-bold">
+                  <i class="bi bi-info-circle"></i>
+                  Thông tin công trình
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Ngày đổ</label>
+                  <input type="date" class="form-control" formControlName="pourDate" readonly />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Giờ đổ</label>
+                  <input type="time" class="form-control" formControlName="pourTime" readonly />
+                </div>
+                <div class="col-md-12">
+                  <label class="form-label">Địa điểm đổ</label>
+                  <input type="text" class="form-control" formControlName="pourLocation" readonly />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Khu vực</label>
+                  <input type="text" class="form-control" formControlName="areaCode" readonly />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Loại đơn hàng</label>
+                  <input type="text" class="form-control" formControlName="orderTypeCode" readonly />
+                </div>
+                <div class="col-md-12">
+                  <label class="form-label">Hạng mục công trình</label>
+                  <input type="text" class="form-control" formControlName="pourCategory" readonly />
+                </div>
+
+                <ng-container *ngIf="itemMain">
+                  <div class="text-lg col-md-12 fw-bold">
+                    <i class="bi bi-box"></i>
+                    Hàng hoá
+                  </div>
+                  <div>
+                    <table class="table table-hover">
+                      <tbody>
+                        <tr>
+                          <td>Mã sản phẩm</td>
+                          <td>Tên</td>
+                          <td>Cát</td>
+                          <td>Đá</td>
+                          <td>Độ sụt</td>
+                          <td class="text-right">SL đặt</td>
+                        </tr>
+                        <tr *ngFor="let od of ordersDetail">
+                          <td>{{ od?.itemCode }}</td>
+                          <td>{{ od?.item?.name }}</td>
+                          <td>{{ od?.sand?.name }}</td>
+                          <td>{{ od?.stone?.name }}</td>
+                          <td>{{ od?.slump }}</td>
+                          <td class="text-right" colspan="5">{{ od?.orderNumber | number }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </ng-container>
+                <!-- <ng-container *ngIf="itemSub">
+                  <div class="text-lg col-md-12 fw-bold">
+                    <i class="bi bi-box"></i>
+                    Dịch vụ kèm theo
+                  </div>
+                  <div>
+                    <table class="table table-hover">
+                      <tbody>
+                        <tr>
+                          <td class="text-center">Mã sản phẩm</td>
+                          <td class="text-center">Đơn vị tính</td>
+                          <td class="text-center">Khối lượng tạo</td>
+                        </tr>
+                        <tr>
+                          <td class="text-center">{{itemSub.itemCode}}</td>
+                          <td class="text-center">{{itemSub.item?.unit?.name}}</td>
+                          <td class="text-center">{{itemSub.orderNumber}}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </ng-container> -->
+                <div *ngIf="orderReleases.length > 0" class="text-lg col-md-12 fw-bold">
+                  <i class="bi bi-journal-text"></i>
+                  Danh sách phiếu trộn
+                </div>
+                <div *ngIf="orderReleases.length > 0">
+                  <table class="table table-hover">
+                    <tbody>
+                      <tr>
+                        <td scope="col" width="120px">Mã phiếu</td>
+                        <td scope="col" width="130px">Ngày giờ xuất</td>
+                        <td scope="col" width="150px">Xe bồn</td>
+                        <td scope="col" width="150px">Xe bơm</td>
+                        <td scope="col" width="150px">Máy trộn</td>
+                        <td scope="col" class="align-right" width="150px">Số lượng</td>
+                        <td scope="col" class="align-right" width="150px">KL. cân vào</td>
+                        <td scope="col" class="align-right" width="150px">KL. cân ra</td>
+                        <td scope="col" width="150px">Trạng thái</td>
+                      </tr>
+                      <tr *ngFor="let os of orderReleases">
+                        <td class="cursor-pointer text-primary" (click)="openEdit(os)">
+                          {{ os.code }}
+                        </td>
+                        <td>{{ os.mixDate | date : 'dd/MM/yyyy hh:mm' }}</td>
+                        <td>{{ os.mixVehicleCode }}</td>
+                        <td>{{ os.pumpVehicleCode }}</td>
+                        <td>{{ os?.mixer?.name }}</td>
+                        <td class="align-right">{{ os.mixNumber | number }}</td>
+                        <td class="align-right">{{ os.weightIn | number }}</td>
+                        <td class="align-right">{{ os.weightOut | number }}</td>
+                        <td *ngIf="state_orderRelease[os?.state]" [style.color]="state_orderRelease[os?.state].color">
+                          {{ state_orderRelease[os?.state].name }}
+                        </td>
+                        <td *ngIf="!state_orderRelease[os?.state]" class="text-primary"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <!-- <div *ngIf="currentTab === 2" class="fade show active" role="tabpanel" aria-labelledby="list-tab">
+              <div class="card-body">
+                <div class="text-lg col-md-12">
+                  <i class="bi bi-clock-history"></i>
+                  Lịch sử đơn hàng
+                </div>
+                <ol class="list-group list-group-numbered"></ol>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

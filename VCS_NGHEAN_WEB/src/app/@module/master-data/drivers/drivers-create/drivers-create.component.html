@@ -1,0 +1,87 @@
+<div class="card" style="height: calc(100vh - 50px)">
+    <div class="card-body">
+      <div class="d-flex-wrap d-gap d-space-bw border-bottom pt-3 header-drawer">
+        <div class="card-title mb-2 p-0">
+          <i class="bi bi-plus-lg"></i>
+          TẠO MỚI TÀI XẾ
+        </div>
+        <div class="d-flex-wrap d-gap">
+          <div class="mb-3">
+            <button (click)="onCreate()" type="button" class="btn btn-primary">
+              <i class="bi bi-check2-all"></i> Lưu thông tin
+            </button>
+            &nbsp;
+          </div>
+          <div class="mb-3">
+            <button type="button" (click)="close()" class="btn btn-warning"><i class="bi bi-x-circle"></i> Đóng</button>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3">
+        <form [formGroup]="DriversForm" (ngSubmit)="onCreate()">
+          <div>
+            <label for="inputText" class="col-form-label">Họ tên<span class="text-danger ms-1">*</span></label>
+            <div>
+              <input
+                [ngClass]="{'is-invalid': submitted && f['fullName'].errors}"
+                type="text"
+                class="form-control"
+                formControlName="fullName" />
+              <div *ngIf="submitted && f['fullName'].errors" class="invalid-feedback">
+                <div *ngIf="f['fullName']['errors']['required']">Không được để trống</div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label for="inputDriver" class="col-form-label">Số điện thoại<span class="text-danger ms-1">*</span></label>
+            <div>
+              <input type="text" class="form-control" formControlName="phoneNumber" />
+            </div>
+          </div>
+
+          <div class="row" style="text-align: center;">
+            <div class="col-md-4">
+              <label class="col-form-label">Ảnh quay trái<span class="text-danger ms-1">*</span></label>
+              <div>
+                <input type="text" class="form-control" formControlName="imageLeft" hidden/>
+                <img src='{{apiUrlImage + imageLeft}}' width="100%">
+                <button type="button" (click)="captureImageLeft()" class="btn btn-secondary" style="margin-top: 12px;"><i class="bi bi-camera"></i> Chụp ảnh quay trái</button>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label class="col-form-label">Ảnh chính diện<span class="text-danger ms-1">*</span></label>
+              <div>
+                <input type="text" class="form-control" formControlName="imageFront" hidden/>
+                <img src='{{apiUrlImage + imageFront}}' width="100%">
+                <button type="button" (click)="captureImageFront()" class="btn btn-secondary" style="margin-top: 12px;"><i class="bi bi-camera"></i> Chụp ảnh chính diện</button>
+              </div>
+            </div>
+            <div class="col-md-4">
+                <label class="col-form-label">Ảnh quay phải<span class="text-danger ms-1">*</span></label>
+                <div>
+                  <input type="text" class="form-control" formControlName="imageRight" hidden/>
+                  <img src='{{apiUrlImage + imageRight}}' width="100%">
+                  <button type="button" (click)="captureImageRight()" class="btn btn-secondary" style="margin-top: 12px;"><i class="bi bi-camera"></i> Chụp ảnh quay phải</button>
+                </div>
+              </div>
+          </div>
+  
+          <div>
+            <label for="inputText" class="col-form-label nowrap">Trạng thái</label>
+            <div class="d-flex d-gap-20 w-100 mt-0">
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="isActive" formControlName="isActive" value="true" />
+                <label class="form-check-label" for="isActive"> Kích hoạt </label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="isActive" formControlName="isActive" value="false" />
+                <label class="form-check-label" for="isActive"> Khoá </label>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  

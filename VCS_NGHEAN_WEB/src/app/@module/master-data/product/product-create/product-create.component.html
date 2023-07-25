@@ -1,0 +1,223 @@
+<div class="card" style="height: calc(100vh - 50px)">
+  <div class="card-body">
+    <div class="d-flex-wrap d-gap d-space-bw border-bottom pt-3 header-drawer">
+      <div class="card-title mb-2 p-0">
+        <i class="bi bi-plus-lg"></i>
+        {{ modalType === 'add' ? 'Tạo mới sản phẩm' : 'Chỉnh sửa sản phẩm' }}
+      </div>
+      <div class="d-flex-wrap d-gap">
+        <div class="mb-3">
+          <button (click)="onCreate()" type="button" class="btn btn-primary">
+            <i class="bi bi-check2-all"></i> Lưu thông tin
+          </button>
+          &nbsp;
+        </div>
+        <div class="mb-3">
+          <button type="button" (click)="close()" class="btn btn-warning"><i class="bi bi-x-circle"></i> Đóng</button>
+        </div>
+      </div>
+    </div>
+    <div class="mt-3">
+      <form [formGroup]="productForm" *ngIf="productForm" (ngSubmit)="onCreate()">
+        <div class="text-lg col-md-12 fw-bold">
+          <i class="bi bi-info-circle"></i>
+          Thông tin sản phẩm
+        </div>
+
+        <div>
+          <label for="inputText" class="col-form-label">Mã<span class="text-danger ms-1">*</span></label>
+          <div>
+            <input
+              [ngClass]="{'is-invalid': submitted && f['code'].errors}"
+              type="text"
+              class="form-control"
+              formControlName="code" />
+            <div *ngIf="submitted && f['code'].errors" class="invalid-feedback">
+              <div *ngIf="f['code']['errors']['required']">Không được để trống</div>
+            </div>
+          </div>
+        </div>
+        <div>
+          <label for="inputEmail" class="col-form-label">Tên sản phẩm<span class="text-danger ms-1">*</span></label>
+          <div>
+            <input
+              [ngClass]="{'is-invalid': submitted && f['code'].errors}"
+              type="text"
+              class="form-control"
+              formControlName="name" />
+            <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
+              <div *ngIf="f['name']['errors']['required']">Không được để trống</div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-6">
+            <label for="inputUnitcode" class="col-form-label">Đơn vị tính<span class="text-danger ms-1">*</span></label>
+            <select formControlName="unitCode" class="form-select" aria-label="Default select example">
+              <option
+                *ngFor="let unitCode of unitCodes"
+                [value]="unitCode.code"
+                [selected]="selectedItem === unitCode.code">
+                {{ unitCode.code }} - {{ unitCode.name }}
+              </option>
+            </select>
+            <div *ngIf="submitted && f['unitCode'].errors" class="invalid-feedback">
+              <div *ngIf="f['unitCode']['errors']['required']">Không được để trống</div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <label for="inputTypecode" class="col-form-label"
+              >Nhóm sản phẩm<span class="text-danger ms-1">*</span></label
+            >
+            <select formControlName="typeCode" class="form-select" aria-label="Default select example">
+              <option
+                *ngFor="let itemType of itemTypes"
+                [value]="itemType.code"
+                [selected]="selectedItem === itemType.code">
+                {{ itemType.code }} - {{ itemType.name }}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-6">
+            <label for="inputEmail" class="col-form-label">Giá vốn <span class="text-danger ms-1">*</span></label>
+            <div>
+              <input
+                [ngClass]="{'is-invalid': submitted && f['costPrice'].errors}"
+                type="number"
+                class="form-control"
+                formControlName="costPrice" />
+              <div *ngIf="submitted && f['costPrice'].errors" class="invalid-feedback">
+                <div *ngIf="f['costPrice']['errors']['required']">Không được để trống</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <label for="inputEmail" class="col-form-label">Giá bán <span class="text-danger ms-1">*</span></label>
+            <div>
+              <input
+                [ngClass]="{'is-invalid': submitted && f['sellPrice'].errors}"
+                type="number"
+                class="form-control"
+                formControlName="sellPrice" />
+              <div *ngIf="submitted && f['sellPrice'].errors" class="invalid-feedback">
+                <div *ngIf="f['sellPrice']['errors']['required']">Không được để trống</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex d-gap-20 w-100 mt-0">
+          <div class="form-check mt-3">
+            <input formControlName="isMainObject" class="form-check-input" type="checkbox" />
+            <label class="form-check-label" for="gridCheck2"> Là thành phần chính? </label>
+          </div>
+
+          <div class="form-check mt-3">
+            <input formControlName="isQuantitative" class="form-check-input" type="checkbox" />
+            <label class="form-check-label" for="gridCheck2"> Là định lượng? </label>
+          </div>
+        </div>
+
+        <div>
+          <label for="inputText" class="col-form-label nowrap">Trạng thái</label>
+          <div class="d-flex d-gap-20 w-100 mt-0">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="isActive" formControlName="isActive" [value]="true" />
+              <label class="form-check-label" for="isActive"> Kích hoạt </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="isActive" formControlName="isActive" [value]="false" />
+              <label class="form-check-label" for="isActive"> Khoá </label>
+            </div>
+          </div>
+        </div>
+        <!-- Form dành cho công thức sản phẩm -->
+        <form [formGroup]="formulaForm" *ngIf="formulaForm" style="margin-top: 20px">
+          <div class="text-lg col-md-12 fw-bold">
+            <i class="bi bi-info-circle"></i>
+            Công thức sản phẩm
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <label for="inputEmail" class="col-form-label"> Xi măng <span class="text-danger ms-1">*</span></label>
+              <div>
+                <input
+                  [ngClass]="{'is-invalid': submitted && f1['cement'].errors}"
+                  type="number"
+                  class="form-control"
+                  formControlName="cement" />
+                <div *ngIf="submitted && f1['cement'].errors" class="invalid-feedback">
+                  <div *ngIf="f1['cement']['errors']['required']">Không được để trống</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <label for="inputEmail" class="col-form-label">Đá <span class="text-danger ms-1">*</span></label>
+              <div>
+                <input
+                  [ngClass]="{'is-invalid': submitted && f1['stone'].errors}"
+                  type="number"
+                  class="form-control"
+                  formControlName="stone" />
+                <div *ngIf="submitted && f1['stone'].errors" class="invalid-feedback">
+                  <div *ngIf="f1['stone']['errors']['required']">Không được để trống</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-6">
+              <label for="inputEmail" class="col-form-label">Cát <span class="text-danger ms-1">*</span></label>
+              <div>
+                <input
+                  [ngClass]="{'is-invalid': submitted && f1['sand'].errors}"
+                  type="number"
+                  class="form-control"
+                  formControlName="sand" />
+                <div *ngIf="submitted && f1['sand'].errors" class="invalid-feedback">
+                  <div *ngIf="f1['sand']['errors']['required']">Không được để trống</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-6">
+              <label for="inputEmail" class="col-form-label">Phụ gia <span class="text-danger ms-1">*</span></label>
+              <div>
+                <input
+                  [ngClass]="{'is-invalid': submitted && f1['admixture'].errors}"
+                  type="number"
+                  class="form-control"
+                  formControlName="admixture" />
+                <div *ngIf="submitted && f1['admixture'].errors" class="invalid-feedback">
+                  <div *ngIf="f1['admixture']['errors']['required']">Không được để trống</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-6">
+            <label for="inputEmail" class="col-form-label">Nước <span class="text-danger ms-1">*</span></label>
+            <div>
+              <input
+                [ngClass]="{'is-invalid': submitted && f1['water'].errors}"
+                type="number"
+                class="form-control"
+                formControlName="water" />
+              <div *ngIf="submitted && f1['water'].errors" class="invalid-feedback">
+                <div *ngIf="f1['water']['errors']['required']">Không được để trống</div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </form>
+    </div>
+  </div>
+</div>

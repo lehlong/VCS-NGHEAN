@@ -1,0 +1,123 @@
+<div class="card order-create-container" style="height: calc(100vh - 50px)">
+  <div class="card-body">
+    <div class="d-flex-wrap d-gap d-space-bw border-bottom pt-3 header-drawer">
+      <div class="card-title mb-2 p-0">
+        <i class="bi bi-plus-lg"></i>
+        Tạo mới CSKH
+      </div>
+      <div class="d-flex-wrap d-gap">
+        <div class="mb-3">
+          <button (click)="onCreate()" type="button" class="btn btn-primary">
+            <i class="bi bi-check2-all"></i> Lưu thông tin
+          </button>
+          &nbsp;
+        </div>
+        <div class="mb-3">
+          <button type="button" (click)="close()" class="btn btn-warning"><i class="bi bi-x-circle"></i> Đóng</button>
+        </div>
+      </div>
+    </div>
+    <div class="mt-3">
+      <form *ngIf="ctcForm" [formGroup]="ctcForm">
+        <div>
+          <div class="tab-content pt-2">
+            <div class="row g-3">
+              <!-- <div class="col-md-12">
+                <label class="form-label">Mã đơn hàng<span class="text-danger ms-1">*</span></label>
+                <input
+                  [ngClass]="{'is-invalid': submitted && f['orderCode'].errors}"
+                  type="text"
+                  placeholder="Mã đơn hàng"
+                  aria-label="mã đơn hàng"
+                  class="form-control"
+                  (input)="onChangeOrder($event)"
+                  [matAutocomplete]="orderRef"
+                  formControlName="orderCode" />
+                <mat-autocomplete #orderRef="matAutocomplete">
+                  <mat-option
+                    *ngFor="let order of listOrderFilter"
+                    [value]="order.code"
+                    (onSelectionChange)="selectOrder(order, $event)">
+                    <span>
+                      {{ order.code }}
+                    </span>
+                  </mat-option>
+                </mat-autocomplete>
+                <div *ngIf="submitted && f['orderCode'].errors" class="invalid-feedback">
+                  <div *ngIf="f['orderCode']['errors']['required']">Không được để trống</div>
+                </div>
+              </div> -->
+              <div class="col-md-12">
+                <label class="form-label">Chọn khách hàng<span class="text-danger ms-1">*</span></label>
+                <input
+                  [ngClass]="{'is-invalid': submitted && f['partnerName'].errors}"
+                  type="text"
+                  placeholder="Khách hàng"
+                  aria-label="Khách hàng"
+                  class="form-control"
+                  (input)="onChangePartner($event)"
+                  [matAutocomplete]="partnerRef"
+                  formControlName="partnerName" />
+                <mat-autocomplete #partnerRef="matAutocomplete">
+                  <mat-option
+                    *ngFor="let partner of listPartnerFilter"
+                    [value]="partner.name"
+                    (click)="selectPartner(partner, $event)">
+                    <span>
+                      {{ partner.name }}
+                    </span>
+                  </mat-option>
+                </mat-autocomplete>
+                <div *ngIf="submitted && f['partnerName'].errors" class="invalid-feedback">
+                  <div *ngIf="f['partnerName']['errors']['required']">Không được để trống</div>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <button (click)="viewListOrder()" class="btn btn-primary" [disabled]="partnerCode == ''">
+                  Chọn đơn hàng
+                </button>
+              </div>
+              <div class="col-md-12" [hidden]="!showOrderCode">
+                <p>Thông tin đơn hàng đã chọn:</p>
+              </div>
+              <div class="row">
+                <div class="col-md-6" [hidden]="!showOrderCode">
+                  <label class="form-label">Mã đơn hàng:</label>
+                  <input type="text" class="form-control" formControlName="orderCode" />
+                </div>
+                <div class="col-md-6" [hidden]="!showOrderCode">
+                  <label class="form-label">Ngày đặt hàng:</label>
+                  <input type="text" class="form-control" formControlName="dateOrder" />
+                </div>
+                <div class="col-md-6" [hidden]="!showOrderCode">
+                  <label class="form-label">Hàng hoá:</label>
+                  <input type="text" class="form-control" formControlName="itemOrder" />
+                </div>
+                <div class="col-md-6" [hidden]="!showOrderCode">
+                  <label class="form-label">Số điện thoại:</label>
+                  <input type="text" class="form-control" formControlName="phoneOrder" />
+                </div>
+                <div class="col-md-12" [hidden]="!showOrderCode">
+                  <label class="form-label">Trạng thái:</label>
+                  <input type="text" class="form-control" formControlName="statusOrder" />
+                </div>
+              </div>
+              <div class="col-md-12">
+                <label class="form-label">Nội dung chăm sóc</label>
+                <textarea
+                  type="text"
+                  class="form-control"
+                  formControlName="careContent"
+                  [ngClass]="{'is-invalid': submitted && f['careContent'].errors}">
+                </textarea>
+                <div *ngIf="submitted && f['careContent'].errors" class="invalid-feedback">
+                  <div *ngIf="f['careContent']['errors']['required']">Không được để trống</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

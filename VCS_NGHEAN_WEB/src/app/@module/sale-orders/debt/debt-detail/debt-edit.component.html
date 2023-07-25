@@ -1,0 +1,189 @@
+<div class="card debt-detail-container" style="height: calc(100vh - 50px)" [style.width]="screenWidth">
+  <div class="card-body">
+    <div class="d-flex-wrap d-gap d-space-bw border-bottom pt-3 header-drawer">
+      <div class="card-title mb-2 p-0">
+        <i class="bi bi-plus-lg"></i>
+        Chi tiết công nợ
+      </div>
+      <div class="d-flex-wrap d-gap">
+        <div class="mb-3">
+          <button (click)="debtClosing()" type="button" class="btn btn-primary" submitForm>
+            <i class="bi bi-check2-all"></i> Chốt công nợ
+          </button>
+        </div>
+        <div class="mb-3">
+          <button type="button" (click)="close()" class="btn btn-warning"><i class="bi bi-x-circle"></i> Đóng</button>
+        </div>
+      </div>
+    </div>
+    <div class="pb-3 mt-2">
+      <form [formGroup]="debtForm" (ngSubmit)="debtClosing()">
+        <div class="row g-3 detail-container">
+          <div class="main-content col-md-8 pr-2">
+            <div class="text-lg fw-bold mb-3 mt-1">
+              <i class="bi bi-box"></i>
+              Danh sách sản phẩm
+            </div>
+            <div class="wraper-table">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Mã sản phẩm</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Lượng đặt</th>
+                    <th>Lượng xuất</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngIf="detailData?.orderDetails?.length > 0">
+                    <td>{{detailData?.orderDetails?.[0]?.item?.code || ''}}</td>
+                    <td>{{detailData?.orderDetails?.[0]?.item?.name || ''}}</td>
+                    <td>{{detailData?.orderDetails?.[0]?.orderNumber || 0}}</td>
+                    <td>{{detailData?.orderDetails?.[0]?.releaseNumber || 0}}</td>
+                    <td><input (input)="enterUnitPriceMain($event)"
+                        [ngClass]="{'is-invalid': submitted && f['unitPriceMain'].errors}" type="text"
+                        class="form-control" formControlName="unitPriceMain" appCommaSeparated />
+                      <div *ngIf="submitted && f['unitPriceMain'].errors" class="invalid-feedback">
+                        <div *ngIf="f['unitPriceMain']['errors']['required']">Không được để trống</div>
+                      </div>
+                    </td>
+                    <td>{{intoMoneyMain}}</td>
+                  </tr>
+                  <tr *ngIf="detailData?.orderDetails?.length > 1">
+                    <td>{{detailData?.orderDetails?.[1]?.item?.code || ''}}</td>
+                    <td>{{detailData?.orderDetails?.[1]?.item?.name || ''}}</td>
+                    <td>{{detailData?.orderDetails?.[1]?.orderNumber || 0}}</td>
+                    <td>{{detailData?.orderDetails?.[1]?.releaseNumber || 0}}</td>
+                    <td><input (input)="enterUnitPriceSub($event)"
+                        [ngClass]="{'is-invalid': submitted && f['unitPriceSub'].errors}" type="text"
+                        class="form-control" formControlName="unitPriceSub" appCommaSeparated />
+                      <div *ngIf="submitted && f['unitPriceSub'].errors" class="invalid-feedback">
+                        <div *ngIf="f['unitPriceSub']['errors']['required']">Không được để trống</div>
+                      </div>
+                    </td>
+                    <td>{{intoMoneySub}}</td>
+                  </tr>
+                  <tr *ngIf="detailData?.orderDetails?.length > 1">
+                    <td colspan="5" class="text-right">Tổng tiền (1)</td>
+                    <td>{{intoMoneyTotal}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="debt-calculation-wraper mt-3">
+              <div class="wraper-detail">
+                <label class="form-label">Chiết khấu<span class="text-danger ms-1">*</span></label>
+                <input (input)="enterDisCount($event)" [ngClass]="{'is-invalid': submitted && f['disCount'].errors}" type="text"
+                  class="form-control" formControlName="disCount" appCommaSeparated/>
+                <div *ngIf="submitted && f['disCount'].errors" class="invalid-feedback">
+                  <div *ngIf="f['disCount']['errors']['required']">Không được để trống</div>
+                </div>
+              </div>
+              <div class="wraper-detail">
+                <label class="form-label">Thuế VAT<span class="text-danger ms-1">*</span></label>
+                <input (input)="enterTaxVAT($event)" [ngClass]="{'is-invalid': submitted && f['taxVAT'].errors}" type="text"
+                  class="form-control" formControlName="taxVAT" appCommaSeparated/>
+                <div *ngIf="submitted && f['taxVAT'].errors" class="invalid-feedback">
+                  <div *ngIf="f['taxVAT']['errors']['required']">Không được để trống</div>
+                </div>
+              </div>
+              <div class="wraper-detail">
+                <label class="form-label">Thanh toán<span class="text-danger ms-1">*</span></label>
+                <input (input)="enterPayMoney($event)" [ngClass]="{'is-invalid': submitted && f['payMoney'].errors}" type="text"
+                  class="form-control" formControlName="payMoney" appCommaSeparated/>
+                <div *ngIf="submitted && f['payMoney'].errors" class="invalid-feedback">
+                  <div *ngIf="f['payMoney']['errors']['required']">Không được để trống</div>
+                </div>
+              </div>
+              <div class="wraper-detail">
+                <label class="form-label">Tổng tiền (2)<span class="text-danger ms-1">*</span></label>
+                <input type="text" class="form-control" formControlName="totalMoney" />
+              </div>
+              <div class="wraper-detail">
+                <label class="form-label">Tiền nợ<span class="text-danger ms-1">*</span></label>
+                <input type="text" class="form-control" formControlName="debt" />
+              </div>
+            </div>
+
+            <div class="text-lg fw-bold mb-3 mt-3">
+              <i class="bi bi-box"></i>
+              Lịch sử đơn hàng
+            </div>
+            <div class="wraper-table table-scroll">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Mã đơn hàng</th>
+                    <th>Hành động</th>
+                    <th>Thời gian thực hiện</th>
+                    <th>Trạng thái</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of detailData?.orderProcesses">
+                    <td>{{ item?.orderCode }}</td>
+                    <td>{{ item.actionCode && item.actionCode != '' ? ACTION_DEBT[item.actionCode].name : '' }}</td>
+                    <td>{{ item?.createDate | date: 'dd/MM/YYYY HH:mm' }}</td>
+                    <td *ngIf="item.state && item.state != ''" [style.color]="STATE_DEBT[item.state].background || ''">
+                      {{ STATE_DEBT[item.state].name
+                      || '' }}</td>
+                    <td *ngIf="!item.state || item.state == ''"></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="info-content col-md-4">
+            <div class="list-info text-lg fw-bold">
+              <i class="bi bi-info-circle"></i>
+              Thông tin đơn hàng
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Mã đơn hàng</div>
+              <div class="value">{{detailData?.code || ''}}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Tên Khách hàng</div>
+              <div class="value">{{detailData?.partner?.name || ''}}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Số điện thoại</div>
+              <div class="value">{{detailData?.partner?.phoneNumber || ''}}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Địa điểm đổ</div>
+              <div class="value">{{detailData?.pourLocation || ''}}</div>
+            </div>
+            <div class="list-info text-lg fw-bold">
+              <i class="bi bi-info-circle"></i>
+              Thông tin công trình
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Ngày giờ đổ</div>
+              <div class="value">{{detailData?.pourDate | date: 'dd/MM/YYYY HH:mm' }}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Hình thức đổ</div>
+              <div class="value">{{detailData?.pourType?.name || ''}}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Khu vực</div>
+              <div class="value">{{detailData?.area?.name || ''}}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Hạng mục công trình</div>
+              <div class="value">{{detailData?.pourCategory || ''}}</div>
+            </div>
+            <div class="list-info d-space-bw gap-50">
+              <div class="label">Loại đơn hàng</div>
+              <div class="value">{{detailData?.orderType?.name || ''}}</div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,265 @@
+<div class="card" style="height: calc(100vh - 50px)">
+  <div class="card-body">
+    <div class="d-flex-wrap d-gap d-space-bw border-bottom pt-3 position-sticky">
+      <div class="card-title p-0">
+        <i class="bi bi-pencil"></i>
+        Chỉnh sửa phiếu trộn
+      </div>
+      <div class="d-flex-wrap d-gap-10">
+        <div *ngIf="itemDetail && !isDisableButton()" class="mb-3">
+          <button (click)="onFinish()" type="button" class="btn btn-success w-100">
+            <i class="bi bi-check2-all"></i> Hoàn thành
+          </button>
+          &nbsp;
+        </div>
+        <div *ngIf="itemDetail && !isDisableButton()" class="mb-3">
+          <button (click)="onCancel()" type="button" class="btn btn-danger w-100">
+            <i class="bi bi-trash"></i> Hủy
+          </button>
+          &nbsp;
+        </div>
+        <div *ngIf="itemDetail && !isDisableButton()" class="mb-3">
+          <button (click)="onEdit()" type="button" class="d-flex align-items-center btn btn-primary w-100">
+            <mat-icon>save</mat-icon> Lưu thông tin
+          </button>
+          &nbsp;
+        </div>
+        <div class="mb-3">
+          <button type="button" (click)="close()" class="btn btn-warning w-100">
+            <i class="bi bi-x-circle"></i> Đóng
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mt-3">
+      <form [formGroup]="orderReleaseForm" (ngSubmit)="onEdit()">
+        <div class="col-lg-12 d-flex align-items-center fw-bold">
+          <i class="bi bi-cart pl-10"></i>
+          <span class="ml-5"> Thông tin đơn hàng </span>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <label for="inputText" class="col-form-label">Mã đơn hàng<span class="text-danger ms-1">*</span></label>
+            <div>
+              <input [ngClass]="{'is-invalid': submitted && f['orderCode'].errors}" type="text" class="form-control"
+                formControlName="orderCode" readonly />
+              <div *ngIf="submitted && f['orderCode'].errors" class="text-error">
+                <div *ngIf="f['orderCode']['errors']['required']">Không được để trống</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="inputText" class="col-form-label">Khách hàng</label>
+            <div>
+              <input type="text" class="form-control" [value]="orderDetail?.partner?.name" disabled />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="inputText" class="col-form-label">SĐT</label>
+            <div>
+              <input type="text" class="form-control" [value]="orderDetail?.partner?.phoneNumber" disabled />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="inputText" class="col-form-label">Địa chỉ</label>
+            <div>
+              <input type="text" class="form-control" [value]="orderDetail?.partner?.address" disabled />
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 mt-10 d-flex align-items-center fw-bold">
+          <i class="bi bi-box pl-10"></i>
+          <span class="ml-5"> Hàng hóa </span>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <label for="inputText" class="col-form-label">Hàng hóa</label>
+            <div>
+              <input type="text" class="form-control" [value]="itemMain?.itemCode" disabled />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="inputText" class="col-form-label">Cát</label>
+            <div>
+              <input type="text" class="form-control" [value]="itemMain?.sand?.code" disabled />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="inputText" class="col-form-label">Đá</label>
+            <div>
+              <input type="text" class="form-control" [value]="itemMain?.stone?.code" disabled />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="inputText" class="col-form-label">Độ sụt</label>
+            <div>
+              <input type="text" class="form-control" [value]="itemMain?.slump" disabled />
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 mt-10 d-flex align-items-center fw-bold">
+          <i class="bi bi-clipboard2-pulse-fill"></i>
+          <span class="ml-5"> Định mức </span>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <label for="inputText" class="col-form-label">Xi măng</label>
+            <div>
+              <input type="text" class="form-control" [value]="itemMain?.item?.itemFormula?.cement" disabled />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="inputText" class="col-form-label">Đá</label>
+            <div>
+              <input type="text" class="form-control" [value]="itemMain?.item?.itemFormula?.stone" disabled />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="inputText" class="col-form-label">Phụ gia</label>
+            <div>
+              <input type="text" class="form-control" [value]="itemMain?.item?.itemFormula?.admixture" disabled />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="inputText" class="col-form-label">Nước</label>
+            <div>
+              <input type="text" class="form-control" [value]="itemMain?.item?.itemFormula?.water" disabled />
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 mt-10 d-flex align-items-center fw-bold">
+          <i class="bi bi-journal"></i>
+          <span class="ml-5"> Thông tin phiếu </span>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <label for="inputText" class="col-form-label">Số seal</label>
+            <div>
+              <input [ngClass]="{'is-invalid': submitted && f['sealNumber'].errors}" type="text" class="form-control"
+                formControlName="sealNumber" />
+              <div *ngIf="submitted && f['sealNumber'].errors" class="invalid-feedback">
+                <div *ngIf="f['sealNumber']['errors']['required']">Không được để trống</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="inputText" class="col-form-label">Số lượng<span class="text-danger ms-1">*</span></label>
+            <div>
+              <input [ngClass]="{'is-invalid': submitted && f['mixNumber'].errors}" type="number" class="form-control"
+                formControlName="mixNumber" />
+              <div *ngIf="submitted && f['mixNumber'].errors" class="invalid-feedback">
+                <div *ngIf="f['mixNumber']['errors']['required']">Không được để trống</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="inputText" class="col-form-label">Số lượng đặt</label>
+            <div>
+              <input type="text" class="form-control" [value]="itemMain?.orderNumber || 0" disabled />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="inputText" class="col-form-label">SL lũy kế</label>
+            <div>
+              <input type="number" class="form-control" [value]="accumulatedNumber()" disabled />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="inputText" class="col-form-label">Máy trộn<span class="text-danger ms-1">*</span></label>
+            <div>
+              <app-input-custom [className]="{'is-invalid': submitted && f['mixerCode'].errors}"
+                [defaultValue]="mixer?.name || ''" [options]="optionsMixer" [prop]="'name'"
+                (valueChange)="onChangeMix($event)" (selectItem)="onSelectMix($event)">
+              </app-input-custom>
+              <div *ngIf="submitted && f['mixerCode'].errors" class="text-error">
+                <div *ngIf="f['mixerCode']['errors']['required']">Không được để trống</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label class="col-form-label">Ngày giờ xuất</label>
+            <input type="datetime-local" class="form-control" formControlName="mixDate" />
+          </div>
+          <div class="col-lg-6">
+            <label class="col-form-label">Khối lượng cân vào</label>
+            <div>
+              <input readonly [ngClass]="{'is-invalid': submitted && f['weightIn'].errors}" type="number"
+                class="form-control" formControlName="weightIn" />
+              <div *ngIf="submitted && f['weightIn'].errors" class="invalid-feedback">
+                <div *ngIf="f['weightIn']['errors']['required']">Không được để trống</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label class="col-form-label">Thời gian cân vào</label>
+            <input readonly [ngClass]="{'is-invalid': submitted && f['weightInTime'].errors}" type="datetime-local"
+              class="form-control" formControlName="weightInTime" [max]="orderReleaseForm.value?.weightOutTime" />
+            <div *ngIf="submitted && f['weightInTime'].errors" class="invalid-feedback">
+              <div *ngIf="f['weightInTime']['errors']['required']">Không được để trống</div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="inputEmail" class="col-form-label">Khối lượng cân ra</label>
+            <div>
+              <input readonly [ngClass]="{'is-invalid': submitted && f['weightOut'].errors}" type="number"
+                class="form-control" formControlName="weightOut" />
+              <div *ngIf="submitted && f['weightOut'].errors" class="invalid-feedback">
+                <div *ngIf="f['weightOut']['errors']['required']">Không được để trống</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label class="col-form-label">Thời gian cân ra</label>
+            <input readonly [ngClass]="{'is-invalid': submitted && f['weightOutTime'].errors}" type="datetime-local"
+              class="form-control" formControlName="weightOutTime" [min]="orderReleaseForm.value?.weightInTime" />
+            <div *ngIf="submitted && f['weightOutTime'].errors" class="invalid-feedback">
+              <div *ngIf="f['weightOutTime']['errors']['required']">Không được để trống</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-12 mt-10 d-flex align-items-center fw-bold">
+          <mat-icon>commute</mat-icon>
+          Thông tin xe
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <label for="inputEmail" class="col-form-label">Biển số xe bồn<span class="text-danger ms-1">*</span></label>
+            <div>
+              <app-input-custom [className]="{'is-invalid': submitted && f['mixVehicleCode'].errors}"
+                [defaultValue]="orderReleaseForm.value?.mixVehicleCode" [options]="optionsVehicle" [prop]="'code'"
+                (valueChange)="onChange($event)" (selectItem)="onSelectItem($event)">
+              </app-input-custom>
+              <div *ngIf="submitted && f['mixVehicleCode'].errors" class="text-error">
+                <div *ngIf="f['mixVehicleCode']['errors']['required']">Không được để trống</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="inputEmail" class="col-form-label">Lái xe bồn</label>
+            <div>
+              <input class="form-control" readonly type="text" [value]="mixDriver" />
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="inputEmail" class="col-form-label">Biển số xe bơm</label>
+            <div>
+              <app-input-custom [className]="{'is-invalid': submitted && f['pumpVehicleCode'].errors}"
+                [defaultValue]="orderReleaseForm.value?.pumpVehicleCode" [options]="optionsVehicle" [prop]="'code'"
+                (valueChange)="onChangePump($event)" (selectItem)="onSelectPump($event)">
+              </app-input-custom>
+              <div *ngIf="submitted && f['pumpVehicleCode'].errors" class="text-error">
+                <div *ngIf="f['pumpVehicleCode']['errors']['required']">Không được để trống</div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <label for="inputEmail" class="col-form-label">Lái xe bơm</label>
+            <div>
+              <input class="form-control" readonly type="text" [value]="pumpDriver" />
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

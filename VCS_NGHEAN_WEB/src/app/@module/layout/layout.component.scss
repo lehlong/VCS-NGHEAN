@@ -1,0 +1,28 @@
+.wrapper {
+  position: relative;
+  .sidebar {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+  }
+  .main-panel {
+    .content {
+      position: absolute;
+      right: 0px;
+      width: calc(100% - 260px);
+      top: 45px;
+      padding: 0 4px;
+      transition: width 0.3s ease-in-out;
+      background: white;
+      min-height: calc(100vh - 50px);
+      &.full-width {
+        width: 100%;
+      }
+    }
+    @media (max-width: 820px) {
+      .content {
+        width: 100%;
+      }
+    }
+  }
+}

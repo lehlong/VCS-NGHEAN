@@ -1,0 +1,55 @@
+.example-action-buttons {
+  padding-bottom: 20px;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-headers-align .mat-mdc-form-field + .mat-mdc-form-field {
+  margin-left: 8px;
+}
+
+::ng-deep .mat-mdc-select-value {
+  display: none;
+}
+::ng-deep .mat-mdc-select-trigger {
+  justify-content: flex-end;
+}
+
+.accordion-button {
+  background: transparent;
+  justify-content: center;
+  padding: 0px;
+  transform: scale(0.6);
+  &::after {
+    margin: 0;
+    font-size: 12px;
+  }
+}
+
+.multi-dropdown {
+  position: relative;
+  height: 33px;
+  min-width: 200px;
+  flex: 1;
+  .dropdown-value {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+    width: 70%;
+    overflow: hidden;
+  }
+}
+
+thead th {
+  position: sticky;
+  top: 0;
+  font-size: 13px;
+  font-weight: 600;
+}

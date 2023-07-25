@@ -1,0 +1,92 @@
+<div class="card order-edit-container" style="height: calc(100vh - 50px)">
+  <div class="card-body">
+    <div class="d-flex-wrap d-gap d-space-bw border-bottom pt-3 header-drawer">
+      <div class="card-title mb-2 p-0">
+        <i class="bi bi-pencil"></i>
+        Chỉnh sửa CSKH
+      </div>
+      <div class="d-flex-wrap d-gap">
+        <div class="mb-3">
+          <button (click)="onEdit()" type="button" class="btn btn-primary">
+            <i class="bi bi-check2-all"></i> Lưu thông tin
+          </button>
+          &nbsp;
+        </div>
+        <div class="mb-3">
+          <button type="button" (click)="close()" class="btn btn-warning"><i class="bi bi-x-circle"></i> Đóng</button>
+        </div>
+      </div>
+    </div>
+    <div class="pb-3">
+      <form *ngIf="ctcForm" [formGroup]="ctcForm" (ngSubmit)="onEdit()">
+        <div>
+          <div class="tab-content pt-2">
+            <div class="fade show active" role="tabpanel" aria-labelledby="info-tab">
+              <div class="row g-3">
+                <label for="inputText" class="col-form-label">Thông tin đơn hàng</label>
+                <div class="col-md-6">
+                  <div>
+                    <label for="inputText" class="col-form-label">Mã đơn hàng</label>
+                    <div>
+                      <input type="text" class="form-control" formControlName="orderCode" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <label for="inputText" class="col-form-label">Tên khách hàng</label>
+                    <div>
+                      <input type="text" class="form-control" formControlName="partnerName" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <label for="inputText" class="col-form-label">Địa chỉ</label>
+                    <div>
+                      <input type="text" class="form-control" formControlName="address" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div>
+                    <label for="inputText" class="col-form-label">Số điện thoại</label>
+                    <div>
+                      <input type="text" class="form-control" formControlName="phoneNumber" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Ngày chăm sóc</label>
+                  <input
+                    type="date"
+                    class="form-control"
+                    formControlName="dateCare" />
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Giờ chăm sóc</label>
+                  <input
+                    type="time"
+                    class="form-control"
+                    formControlName="timeCare" />
+                </div>
+                <div class="col-md-12">
+                  <label class="form-label">Nội dung chăm sóc</label>
+                  <textarea
+                  type="text"
+                  class="form-control"
+                  formControlName="careContent"
+                  [ngClass]="{'is-invalid': submitted && f['careContent'].errors}">
+                </textarea>
+                <div *ngIf="submitted && f['careContent'].errors" class="invalid-feedback">
+                  <div *ngIf="f['careContent']['errors']['required']">Không được để trống</div>
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

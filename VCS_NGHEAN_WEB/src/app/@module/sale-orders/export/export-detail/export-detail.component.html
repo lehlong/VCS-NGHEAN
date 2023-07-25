@@ -1,0 +1,201 @@
+<div class="card order-edit-container" style="height: calc(100vh - 50px);">
+  <div class="card-body">
+    <div class="d-flex-wrap d-gap d-space-bw border-bottom pt-3 position-sticky">
+      <div class="card-title p-0">
+        <i class="bi bi-plus-lg"></i>
+        Chi tiết phiếu xuất
+      </div>
+      <div class="d-flex-wrap d-gap">
+        <div class="mb-3">
+          <button type="button" (click)="close()" class="btn btn-warning"><i class="bi bi-x-circle"></i> Đóng</button>
+        </div>
+      </div>
+    </div>
+    <div class="pb-3">
+      <div>
+        <div class="tab-content pt-2">
+          <div class="fade show active" role="tabpanel" aria-labelledby="info-tab">
+            <div class="row g-3">
+              <div class="d-flex">
+                <div class="pr-10 pl-10" style="width: 800px;">
+                  <div *ngIf="itemDetail" class="frame p-20">
+                    <div class="text-lg col-md-12 fw-bold text-underline mb-20">
+                      Thông tin giá
+                    </div>
+                    <table class="export-table mb-20" [cellPadding]="0">
+                      <thead>
+                        <tr>
+                          <th>Mã sản phẩm</th>
+                          <th>Tên sản phẩm</th>
+                          <th class="text-right">Lượng đặt</th>
+                          <th class="text-right">Lượng xuất</th>
+                          <th class="text-right">Đơn giá</th>
+                          <th class="text-right">Thành tiền</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of itemDetail.exportDetails">
+                          <td>{{item.itemCode}}</td>
+                          <td>{{item?.item?.name}}</td>
+                          <td class="text-right">{{item.orderNumber}}</td>
+                          <td class="text-right">{{item.number | number}}</td>
+                          <td class="text-right">{{item.price | number}}</td>
+                          <td class="text-right">{{item.sumMoney | number}}</td>
+                        </tr>
+                        <tr>
+                          <td colspan="5" class="text-right fw-bold" style="padding-right: 20px;">Tổng tiền
+                          </td>
+                          <td class="text-right fw-bold">{{totalMoney() | number }}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <div class="d-flex" style="gap: 10px">
+                      <div class="export-input">
+                        <label for="">Chiếu khấu</label>
+                        <input class="form-control" type="number" [value]="itemDetail.discount" disabled>
+                      </div>
+                      <div class="export-input">
+                        <label for="">Thuế VAT</label>
+                        <input class="form-control" type="number" [value]="itemDetail.taxVat" disabled>
+                      </div>
+                      <div class="export-input">
+                        <label for="">Thanh toán</label>
+                        <input class="form-control" type="number" [value]="itemDetail.payMoney" disabled>
+                      </div>
+                      <div class="export-input">
+                        <label for="">Tổng tiền</label>
+                        <input class="form-control" type="number" [value]="itemDetail.sumMoney" disabled>
+                      </div>
+                      <div class="export-input">
+                        <label for="">Tiền nợ</label>
+                        <input class="form-control" type="number" [value]="itemDetail.debt" disabled>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="pl-10" style="width: 400px;">
+                  <div class="frame p-20" *ngIf="itemDetail">
+                    <div class="info--export mb-20">
+                      <div class="text-lg col-md-12 fw-bold text-underline mb-10">
+                        Thông tin phiếu xuất
+                      </div>
+                      <div class="table--custom">
+                        <div
+                          class="export-line pt-10 pb-10 d-flex align-item-center justify-content-between border-bottom">
+                          <div>Mã phiếu xuất</div>
+                          <div>{{itemDetail.code}}</div>
+                        </div>
+                        <div
+                          class="export-line pt-10 pb-10 d-flex align-item-center justify-content-between border-bottom">
+                          <div>Ngày xuất</div>
+                          <div>{{itemDetail.exportDate | date: 'dd/MM/yyyy hh:mm'}}</div>
+                        </div>
+                        <div
+                          class="export-line pt-10 pb-10 d-flex align-item-center justify-content-between border-bottom">
+                          <div>Khách hàng</div>
+                          <div>{{itemDetail.partner.name}}</div>
+                        </div>
+                        <div
+                          class="export-line pt-10 pb-10 d-flex align-item-center justify-content-between border-bottom">
+                          <div>Số điện thoại</div>
+                          <div>{{itemDetail.phoneNumber}}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="info--order">
+                      <div class="text-lg col-md-12 fw-bold text-underline mb-10">
+                        Thông tin đơn hàng
+                      </div>
+                      <div class="table--custom">
+                        <div
+                          class="export-line pt-10 pb-10 d-flex align-item-center justify-content-between border-bottom">
+                          <div>Mã đơn hàng</div>
+                          <div>{{itemDetail.orderCode}}</div>
+                        </div>
+                        <div
+                          class="export-line pt-10 pb-10 d-flex align-item-center justify-content-between border-bottom">
+                          <div>Ngày đặt hàng</div>
+                          <div>{{itemDetail.order.createDate | date: 'dd/MM/yyyy hh:mm'}}</div>
+                        </div>
+                        <div
+                          class="export-line pt-10 pb-10 d-flex align-item-center justify-content-between border-bottom">
+                          <div>Ngày đổ</div>
+                          <div>{{itemDetail.order.pourDate | date: 'dd/MM/yyyy hh:mm'}}</div>
+                        </div>
+                        <div
+                          class="export-line pt-10 pb-10 d-flex align-item-center justify-content-between border-bottom">
+                          <div>Địa điểm đổ</div>
+                          <div>{{itemDetail.pourLocation}}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="card">
+  <div class="card-body">
+    <div class="d-flex-wrap d-gap d-space-bw border-bottom pt-3 position-sticky">
+      <div class="card-title p-0">
+        <i class="bi bi-plus-lg"></i>
+        Chi tiết phiếu xuất hàng
+      </div>
+      <div class="d-flex-wrap d-gap">
+        <div class="mb-3">
+          <button type="button" (click)="close()" class="btn btn-warning"><i class="bi bi-x-circle"></i> Đóng</button>
+        </div>
+      </div>
+    </div>
+    <div class="pb-3 pt-2">
+      <div class="row g-3 m">
+        <div class="col-lg-8">
+          <div class="text-lg col-md-12 fw-bold text-underline">
+            Thông tin giá
+          </div>
+          <table class="table-export">
+            <thead>
+              <tr>
+                <th>Mã sản phẩm</th>
+                <th>Tên sản phẩm</th>
+                <th class="text-right">Lượng đặt</th>
+                <th class="text-right">Lượng xuất</th>
+                <th class="text-right">Đơn giá</th>
+                <th class="text-right">Thành tiền</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of itemDetail.exportDetails">
+                <td>{{item.itemCode}}</td>
+                <td>{{item?.item?.name}}</td>
+                <td class="text-right">{{item.itemCode}}</td>
+                <td class="text-right">{{item.number}}</td>
+                <td class="text-right">{{item.price}}</td>
+                <td class="text-right">{{item.sumMoney}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="col-lg-4">
+          <div class="info--export">
+            <div class="text-lg col-md-12 fw-bold text-underline">
+              Thông tin phiếu xuất
+            </div>
+          </div>
+          <div class="info--order">
+            <div class="text-lg col-md-12 fw-bold text-underline">
+              Thông tin phiếu xuất
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

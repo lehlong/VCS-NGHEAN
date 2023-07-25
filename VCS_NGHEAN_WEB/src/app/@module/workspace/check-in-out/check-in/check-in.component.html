@@ -1,0 +1,156 @@
+<div class="row">
+    <div class="col-md-6 " style="padding-right: 2px;">
+        <div class="card">
+            <div class="card-body container-page">
+                <div class="d-flex-wrap d-gap d-space-bw mt-3">
+                    <div class="card-title mb-2 p-0">
+                        <i class="bi bi-camera-video"></i>
+                        KIỂM SOÁT XE VÀO
+                    </div>
+                </div>
+
+                <div class="list-container border-top border-bottom mb-3" style="padding-top: 12px; overflow: hidden;">
+                    
+                    <!-- When don't have data check-in -->
+                    <div class="d-flex-wrap d-gap">
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-primary">
+                                <i class="bi bi-camera"></i> Check-in
+                            </button>
+                        </div>
+
+                        <div class="mb-3">
+                            <a type="button" class="btn btn-success" routerLink="/master-data/drivers">
+                                <i class="bi bi-person-bounding-box"></i> Đăng ký tài xế
+                            </a>
+                        </div>
+                        <div class="mb-3">
+                            <a type="button" class="btn btn-danger" routerLink="/master-data/vehicle">
+                                <i class="bi bi-truck"></i> Đăng ký xe
+                            </a>
+                        </div>
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-secondary" (click)="refreshCamera();">
+                                <i class="bi bi-arrow-repeat"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <!-- When click check-in -->
+                    <div class="d-flex-wrap d-gap">
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-primary">
+                                <i class="bi bi-camera"></i> Nhận diện lại
+                            </button>
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-danger">
+                                <i class="bi bi-x-octagon"></i> Không cho vào
+                            </button>
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-warning">
+                                <i class="bi bi-x-diamond"></i> Không cấp số
+                            </button>
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-success">
+                                <i class="bi bi-ticket-perforated"></i> Cấp số
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Stream Camera -->
+                    <video id="stream_in" autoplay width="100%"></video>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6" style="padding-left: 2px;">
+        <div class="card">
+            <div class="card-body container-page" style="height: fit-content;">
+                <div class="d-flex-wrap d-gap d-space-bw mt-3">
+                    <div class="card-title mb-2 p-0">
+                        <i class="bi bi-info-square"></i>
+                        THÔNG TIN XE
+                    </div>
+                </div>
+
+                <div class="list-container border-top border-bottom mb-3"
+                    style="padding-top: 12px; overflow: unset;border-bottom: none !important;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Thời gian</label>
+                                <input type="text" class="form-control" [ngModel]="timeNow | date:'dd/MM/yyyy hh:mm:ss'" disabled>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Đơn hàng SMO</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Biển số</label>
+                            <div>
+                              <app-input-custom [options]="optionsVehicle" [prop]="'code'" (valueChange)="onChangeVehicle($event)"
+                                (selectItem)="onSelectVehicle($event)">
+                              </app-input-custom>
+                            </div>
+                          </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Ảnh chụp quét</label>
+                                <img src='{{apiUrlImage + imagePlate}}' alt="" width="100%">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Nhận diện</label>
+                                <input type="text" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="card" style="margin-top: 4px;">
+            <div class="card-body container-page" style="max-height: 60vh;overflow: auto;height: fit-content;">
+                <div class="d-flex-wrap d-gap d-space-bw mt-3">
+                    <div class="card-title mb-2 p-0">
+                        <i class="bi bi-list-ul"></i>
+                        DANH SÁCH ĐƠN HÀNG
+                    </div>
+                </div>
+                <table class="table table-hover table-bordered" style="min-width: auto !important;">
+                    <thead>
+                        <tr>
+                            <th scope="col">Số đơn hàng SMO</th>
+                            <th scope="col">Thời gian</th>
+                            <th scope="col">Mặt hàng</th>
+                            <th scope="col">Số lượng</th>
+                            <th scope="col">Biển số xe</th>
+                            <th scope="col">Tên lái xe</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>1</th>
+                            <td>Mark</td>
+                            <td>Otto</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                            <td>@mdo</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>

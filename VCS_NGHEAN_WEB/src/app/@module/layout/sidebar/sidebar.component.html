@@ -1,0 +1,61 @@
+<aside [ngClass]="{'sidebar-hidden': !show, 'sidebar-visible': show}" id="sidebar" class="sidebar">
+	<div class="user-info">
+		<div class="image">
+			<img src="../assets/img/UserLogo.jpg" width="48" height="48" alt="User">
+		</div>
+		<div class="info-container">
+			<div class="name" aria-haspopup="true" aria-expanded="false">{{username}}</div>
+			<div class="email">{{fullName}}</div>
+			<i class="material-icons icon-open" data-bs-toggle="dropdown" aria-haspopup="true"
+				aria-expanded="true">keyboard_arrow_down</i>
+			<div class="btn-group user-helper-dropdown">
+				<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile" style="padding: 0;">			
+					<li>
+					  <a class="dropdown-item d-flex align-items-center"
+					  routerLink="/master-data/profile"
+					  >
+						<i class="bi bi-person"></i>
+						<span>Thông tin cá nhân</span>
+					  </a>
+					</li>
+					<li>
+					  <hr class="dropdown-divider">
+					</li>
+					<li (click)="logOut()">
+					  <a class="dropdown-item d-flex align-items-center" href="#">
+						<i class="bi bi-box-arrow-right"></i>
+						<span>Đăng xuất</span>
+					  </a>
+					</li>
+				  </ul>
+			</div>
+		</div>
+	</div>
+	<ul class="sidebar-nav" id="sidebar-nav">
+		<li *ngFor="let item of dataSource; index as i" class="nav-item">
+			<a *ngIf="!item?.children || item?.children?.length == 0" class="nav-link collapsed"
+				routerLink="{{ item.url || '#' }}" routerLinkActive="active">
+				<i class="bi" [ngClass]="item.icon || ''"></i>
+				<span>{{ item.name }}</span>
+			</a>
+			<a *ngIf="item?.children?.length > 0" class="nav-link collapsed" [attr.data-bs-target]="'#po-dcch' + i"
+				data-bs-toggle="collapse">
+				<i class="bi" [ngClass]="item.icon || ''"></i>
+				<span>{{ item.name }}</span>
+				<i class="bi bi-chevron-down ms-auto"></i>
+			</a>
+			<ul *ngIf="item?.children?.length > 0" [id]="'po-dcch' + i" class="nav-content collapse "
+				data-bs-parent="#sidebar-nav">
+				<li *ngFor="let child of item.children; index as i">
+					<a *ngIf="!child.children || child?.children?.length == 0" routerLink="{{ child.url }}" routerLinkActive="active"><i
+							class="bi bi-circle"></i><span>{{ child.name }}</span></a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+	<div class="legal">
+		<div class="copyright" style="text-align: center;">
+			<a href="http://d2s.com.vn/" target="_blank"><img src="../../../../assets/img/DSS_logo_color.png" width="60%"></a>
+		</div>
+	</div>
+</aside>

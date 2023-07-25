@@ -1,0 +1,11 @@
+.account-group-style {
+    .icon-tree {
+        padding: 3px 7px;
+        margin: 0px 5px 5px;
+        cursor: pointer;
+        border-radius: 50%;
+        &:hover {
+            background: #f0f3f6;
+        }
+    }
+}
