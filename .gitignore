@@ -396,3 +396,4 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+StreamCaremaServer/ffmpeg/ffmpeg.exe
