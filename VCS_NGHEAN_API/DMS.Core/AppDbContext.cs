@@ -6,6 +6,7 @@ using DMS.CORE.Entities.BU;
 using DMS.CORE.Entities.MD;
 using DMS.CORE.Entities.SO;
 using System.IdentityModel.Tokens.Jwt;
+using DMS.CORE.Entities.WS;
 
 namespace DMS.CORE
 {
@@ -168,6 +169,11 @@ namespace DMS.CORE
         public DbSet<tblBuCheckInOut> tblBuCheckInOut { get; set; }
         public DbSet<tblBuCheckInOutImage> tblBuCheckInOutImage { get; set; }
         public DbSet<tblBuAttachment> tblBuAttachment { get; set; }
+        #endregion
+
+        #region Workspace
+        public DbSet<tblWsCheckIn> tblWsCheckIn { get; set; }
+
         #endregion
     }
 }

@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { BaseFilter } from 'src/app/@filter/Common/base-filter.model';
-import { optionsGroup } from 'src/app/@filter/MD/area-filter.model';
+import { CheckInModel } from 'src/app/models/WS/check-in.model';
 import { GlobalService } from 'src/app/services/Common/global.service';
 import { CameraService } from 'src/app/services/MD/camera.service';
 import { VehicleService } from 'src/app/services/MD/vehicle.service';
+import { CheckInService } from 'src/app/services/WS/check-in.service';
+import { GuidEmpty } from 'src/app/utils/constant/constant';
 import { environment } from 'src/environments/environment';
 declare var flvjs: any
 
@@ -14,27 +16,36 @@ declare var flvjs: any
 })
 export class CheckInComponent implements OnInit {
   userInfo = this._gs.getUserInfo();
-  cameraIn :string ='';
+  cameraIn: string = '';
   filterCamera = new BaseFilter();
 
-  timeNow : Date = new Date();
+  dataCheckIn: CheckInModel = {
+    id: GuidEmpty,
+    timeCheckIn: new Date(),
+    vehicle: '',
+    driver: '',
+    doSap: '',
+    isActive: true,
+  }
 
   apiUrlImage = environment.apiUrlImage;
-  imagePlate : string = '/uploads/content/image-thumbnails.jpg';
+  imagePlate: string = '/uploads/content/image-thumbnails.jpg';
 
-  optionsVehicle: optionsGroup[] = [];
+  optionsVehicle: any[] = [];
   filterVehicle = new BaseFilter();
 
   constructor(
     private _gs: GlobalService,
-    private _vs : VehicleService,
+    private _vs: VehicleService,
     private _cs: CameraService,
+    private _cis: CheckInService
   ) { }
-  ngOnInit(): void {
-    setInterval(() => { this.timeNow = new Date() }, 1000)
+  ngOnInit(): void {  
     this.getAllCamera();
     this.getAllVehicle();
   }
+
+  intervalTime = setInterval(() => { this.dataCheckIn.timeCheckIn = new Date() }, 1000)
 
   getAllCamera() {
     this.filterCamera.pageSize = 100;
@@ -94,11 +105,23 @@ export class CheckInComponent implements OnInit {
     console.log(item)
   }
 
-  refreshCamera(){
+  refreshCamera() {
     window.location.reload();
   }
 
-  refreshTime(){
-    this.timeNow = new Date();
+  refreshTime() {
+    this.dataCheckIn.timeCheckIn = new Date();
+  }
+
+  onClickCheckIn() {
+    this._cis.CaptureImage(this.userInfo.userName).subscribe((data) => {
+      this.imagePlate = data.data
+    })
+  }
+
+  onClickCapSo(){
+    this._cis.Insert(this.dataCheckIn).subscribe((data) => {
+      setTimeout(() => window.location.reload(), 1000);
+    })
   }
 }

@@ -12,9 +12,9 @@
                 <div class="list-container border-top border-bottom mb-3" style="padding-top: 12px; overflow: hidden;">
                     
                     <!-- When don't have data check-in -->
-                    <div class="d-flex-wrap d-gap">
+                    <div class="d-flex-wrap d-gap" *ngIf="imagePlate == '/uploads/content/image-thumbnails.jpg'">
                         <div class="mb-3">
-                            <button type="button" class="btn btn-primary">
+                            <button type="button" class="btn btn-primary" (click)="onClickCheckIn();">
                                 <i class="bi bi-camera"></i> Check-in
                             </button>
                         </div>
@@ -36,9 +36,9 @@
                         </div>
                     </div>
                     <!-- When click check-in -->
-                    <div class="d-flex-wrap d-gap">
+                    <div class="d-flex-wrap d-gap" *ngIf="imagePlate != '/uploads/content/image-thumbnails.jpg'">
                         <div class="mb-3">
-                            <button type="button" class="btn btn-primary">
+                            <button type="button" class="btn btn-primary" (click)="onClickCheckIn();">
                                 <i class="bi bi-camera"></i> Nhận diện lại
                             </button>
                         </div>
@@ -56,7 +56,7 @@
                         </div>
 
                         <div class="mb-3">
-                            <button type="button" class="btn btn-success">
+                            <button type="button" class="btn btn-success" (click)="onClickCapSo()">
                                 <i class="bi bi-ticket-perforated"></i> Cấp số
                             </button>
                         </div>
@@ -85,7 +85,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label>Thời gian</label>
-                                <input type="text" class="form-control" [ngModel]="timeNow | date:'dd/MM/yyyy hh:mm:ss'" disabled>
+                                <input type="text" class="form-control" [ngModel]="dataCheckIn.timeCheckIn | date:'dd/MM/yyyy hh:mm:ss'" disabled>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -94,14 +94,12 @@
                                 <input type="text" class="form-control">
                             </div>
                         </div>
-
                         <div class="col-md-4">
                             <label>Biển số</label>
-                            <div>
-                              <app-input-custom [options]="optionsVehicle" [prop]="'code'" (valueChange)="onChangeVehicle($event)"
-                                (selectItem)="onSelectVehicle($event)">
-                              </app-input-custom>
-                            </div>
+                            <ng-select [(ngModel)]="dataCheckIn.vehicle">
+                                        <ng-option *ngFor="let item of optionsVehicle"
+                                            [value]="item?.code">{{item?.code}}</ng-option>
+                                    </ng-select>
                           </div>
                         <div class="col-md-4">
                             <div class="form-group">
