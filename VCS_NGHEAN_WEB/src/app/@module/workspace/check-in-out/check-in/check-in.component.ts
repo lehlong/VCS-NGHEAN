@@ -113,6 +113,7 @@ export class CheckInComponent implements OnInit {
     this.dataCheckIn.timeCheckIn = new Date();
   }
 
+  //Khi ấn vào checkIn hoặc checkIn lại thì sẽ trả ra data ảnh quét và text biển số
   onClickCheckIn() {
     this._cis.CaptureImage(this.userInfo.userName).subscribe((data) => {
       this.imagePlate = data.data
