@@ -30,6 +30,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {DashboardComponent} from 'src/app/@module/components/dashboard/dashboard.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { DisplayOrderComponent } from './@module/workspace/display/display-order/display-order.component';
+import { DisplayTicketComponent } from './@module/workspace/display/display-ticket/display-ticket.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     DrawerComponent,
     ResultComponent,
     DashboardComponent,
+    DisplayOrderComponent,
+    DisplayTicketComponent
   ],
   imports: [
     MatTooltipModule,

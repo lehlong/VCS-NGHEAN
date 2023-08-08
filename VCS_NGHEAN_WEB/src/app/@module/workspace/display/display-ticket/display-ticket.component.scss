@@ -1,0 +1,29 @@
+p{
+    color: white;
+}
+
+table  td{
+    text-align: center;
+    color: white;
+    border: solid 1px white;
+    font-size: 24px !important;
+}
+
+table  th{
+    text-align: center;
+    color: white;
+    border: solid 1px white;
+    font-size: 24px !important;
+    padding: 8px;
+    background-color: #ff9b63;
+}
+
+.main-content{
+    height: 100vh;
+    background-color: #4792e8;
+}
+
+.header-content{
+    padding: 12px 24px;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}

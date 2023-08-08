@@ -23,7 +23,7 @@ import { CheckOutComponent } from './check-in-out/check-out/check-out.component'
   declarations: [
     CheckInOutIndexComponent,
     CheckInComponent,
-    CheckOutComponent
+    CheckOutComponent,
   ],
   imports: [
     MatTableModule,
