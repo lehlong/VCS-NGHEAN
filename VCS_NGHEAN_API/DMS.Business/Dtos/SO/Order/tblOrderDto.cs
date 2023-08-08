@@ -57,7 +57,6 @@ namespace DMS.BUSINESS.Dtos.SO.Order
 
         public virtual tblOrderTypeDto OrderType { get; set; }
 
-        public virtual tblPourTypeDto PourType { get; set; }
 
         public virtual List<tblOrderDetailDto> OrderDetails { get; set; }
 

@@ -12,7 +12,7 @@
                 <div class="list-container border-top border-bottom mb-3" style="padding-top: 12px; overflow: hidden;">
                     
                     <!-- When don't have data check-in -->
-                    <div class="d-flex-wrap d-gap" *ngIf="imagePlate == '/uploads/content/image-thumbnails.jpg'">
+                    <div class="d-flex-wrap d-gap" *ngIf="imagePlate == imageThumbnails">
                         <div class="mb-3">
                             <button type="button" class="btn btn-primary" (click)="onClickCheckIn();">
                                 <i class="bi bi-camera"></i> Check-in
@@ -36,7 +36,7 @@
                         </div>
                     </div>
                     <!-- When click check-in -->
-                    <div class="d-flex-wrap d-gap" *ngIf="imagePlate != '/uploads/content/image-thumbnails.jpg'">
+                    <div class="d-flex-wrap d-gap" *ngIf="imagePlate != imageThumbnails">
                         <div class="mb-3">
                             <button type="button" class="btn btn-primary" (click)="onClickCheckIn();">
                                 <i class="bi bi-camera"></i> Nhận diện lại
@@ -51,7 +51,7 @@
 
                         <div class="mb-3">
                             <button type="button" class="btn btn-warning">
-                                <i class="bi bi-x-diamond"></i> Không cấp số
+                                <i class="bi bi-x-diamond"></i> Cấp hàng chờ
                             </button>
                         </div>
 
@@ -96,21 +96,41 @@
                         </div>
                         <div class="col-md-4">
                             <label>Biển số</label>
-                            <ng-select [(ngModel)]="dataCheckIn.vehicle">
+                            <ng-select [(ngModel)]="dataCheckIn.vehicle" [disabled]="imagePlate == imageThumbnails">
                                         <ng-option *ngFor="let item of optionsVehicle"
                                             [value]="item?.code">{{item?.code}}</ng-option>
                                     </ng-select>
                           </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Ảnh chụp quét</label>
+                            <div class="form-group center-label">
+                                <label>Ảnh chụp quét biển số</label>
                                 <img src='{{apiUrlImage + imagePlate}}' alt="" width="100%">
                             </div>
                         </div>
                         <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Nhận diện</label>
-                                <input type="text" class="form-control">
+                            <div class="form-group center-label">
+                                <label>Nhận diện biển số</label>
+                                <input type="text" class="form-control" disabled>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label>Tài xế</label>
+                            <ng-select [(ngModel)]="dataCheckIn.vehicle" [disabled]="imagePlate == imageThumbnails">
+                                        <ng-option *ngFor="let item of optionsVehicle"
+                                            [value]="item?.code">{{item?.code}}</ng-option>
+                                    </ng-select>
+                          </div>
+                        <div class="col-md-4">
+                            <div class="form-group center-label">
+                                <label>Ảnh chụp quét tài xế</label>
+                                <img src='{{apiUrlImage + imagePlate}}' alt="" width="100%">
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group center-label">
+                                <label>Nhận diện tài xế</label>
+                                <input type="text" class="form-control" disabled>
                             </div>
                         </div>
                     </div>

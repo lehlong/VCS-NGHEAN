@@ -29,7 +29,8 @@ export class CheckInComponent implements OnInit {
   }
 
   apiUrlImage = environment.apiUrlImage;
-  imagePlate: string = '/uploads/content/image-thumbnails.jpg';
+  imageThumbnails : string = '/uploads/content/image-thumbnails-small.jpg';
+  imagePlate: string = this.imageThumbnails;
 
   optionsVehicle: any[] = [];
   filterVehicle = new BaseFilter();
@@ -40,7 +41,7 @@ export class CheckInComponent implements OnInit {
     private _cs: CameraService,
     private _cis: CheckInService
   ) { }
-  ngOnInit(): void {  
+  ngOnInit(): void {
     this.getAllCamera();
     this.getAllVehicle();
   }
@@ -117,10 +118,15 @@ export class CheckInComponent implements OnInit {
   onClickCheckIn() {
     this._cis.CaptureImage(this.userInfo.userName).subscribe((data) => {
       this.imagePlate = data.data
+
+      var checkPlate = this.optionsVehicle.find(x => x.code == "35K154047");
+      if (checkPlate) {
+        this.dataCheckIn.vehicle = checkPlate.code;
+      }
     })
   }
 
-  onClickCapSo(){
+  onClickCapSo() {
     this._cis.Insert(this.dataCheckIn).subscribe((data) => {
       setTimeout(() => window.location.reload(), 1000);
     })

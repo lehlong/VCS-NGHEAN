@@ -65,7 +65,6 @@ namespace DMS.CORE.Entities.SO
 
         public virtual tblMdOrderType OrderType { get; set; }
 
-        public virtual tblMdPourType PourType { get; set; }
 
         public virtual ICollection<tblSoOrderProcess> OrderProcesses { get; set; }
 
