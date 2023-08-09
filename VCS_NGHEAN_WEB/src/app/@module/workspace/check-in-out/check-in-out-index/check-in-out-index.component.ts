@@ -18,10 +18,12 @@ export class CheckInOutIndexComponent implements OnInit {
   canPlayStreamIn: boolean = true;
   canPlayStreamOut: boolean = true;
 
-  optionsArea: optionsGroup[] = [];
+  optionsArea: any[] = [];
   filterArea = new BaseFilter();
   filterCamera = new BaseFilter();
   allCamera: CameraModel[] = [];
+
+  currentArea : string = this.userInfo.areaCode;
 
   cameraIn?: string = '';
   cameraOut?: string = '';
@@ -49,14 +51,10 @@ export class CheckInOutIndexComponent implements OnInit {
     });
   }
 
-  onChangeArea(e: any) {
-    this.filterArea.keyWord = e;
-    this.getAllArea();
-  }
-
   onSelectItemArea(item: any) {
-    this.cameraIn = this.allCamera.find(x => x.areaCode == item.code && x.inOut == 'in')?.linkPlay;
-    this.cameraOut = this.allCamera.find(x => x.areaCode == item.code && x.inOut == 'out')?.linkPlay;
+    this.cameraIn = this.allCamera.find(x => x.areaCode == item && x.inOut == 'in')?.linkPlay;
+    this.cameraOut = this.allCamera.find(x => x.areaCode == item && x.inOut == 'out')?.linkPlay;
+    this.currentArea = item
     this.playStreamCamera(this.cameraIn, this.cameraOut)
   }
 
