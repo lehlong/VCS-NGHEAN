@@ -26,6 +26,9 @@ export class AreaCreateComponent {
     this.areaForm = this._fb.group({
       code: ['', [Validators.required, this.utils.trimSpace]],
       name: ['', [Validators.required, this.utils.trimSpace]],
+      dbTgbx: ['', [ this.utils.trimSpace]],
+      dbTdh: ['', [ this.utils.trimSpace]],
+      dbTdhE5: ['', [this.utils.trimSpace]],
       isActive: [true, [Validators.required]],
     });
   }
@@ -38,6 +41,9 @@ export class AreaCreateComponent {
     this.drawerService.close();
     this.areaForm?.get('code')?.setValue('');
     this.areaForm?.get('name')?.setValue('');
+    this.areaForm?.get('dbTgbx')?.setValue('');
+    this.areaForm?.get('dbTdh')?.setValue('');
+    this.areaForm?.get('dbTdhE5')?.setValue('');
     this.areaForm?.get('isActive')?.setValue(true);
   }
 
@@ -51,6 +57,9 @@ export class AreaCreateComponent {
         {
           code: this.areaForm.value.code.trim(),
           name: this.areaForm.value.name.trim(),
+          dbTgbx: this.areaForm.value.dbTgbx.trim(),
+          dbTdh: this.areaForm.value.dbTdh.trim(),
+          dbTdhE5: this.areaForm.value.dbTdhE5.trim(),
           isActive: this.areaForm.value.isActive,
         },
         false,
@@ -61,6 +70,9 @@ export class AreaCreateComponent {
           this.submitted = false;
           this.areaForm?.get('code')?.setValue('');
           this.areaForm?.get('name')?.setValue('');
+          this.areaForm?.get('dbTgbx')?.setValue('');
+          this.areaForm?.get('dbTdh')?.setValue('');
+          this.areaForm?.get('dbTdhE5')?.setValue('');
           this.areaForm?.get('isActive')?.setValue(true);
         },
         (error) => {

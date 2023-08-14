@@ -30,7 +30,7 @@ namespace DMS.CORE
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseLazyLoadingProxies();
+            optionsBuilder.UseLazyLoadingProxies(false);
         }
 
         public string UserProvider

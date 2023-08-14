@@ -60,6 +60,9 @@ export class AreaIndexComponent {
         ...this.filter,
         code: item.code,
         name: item.name,
+        dbTgbx: item.dbTgbx,
+        dbTdh: item.dbTdh,
+        dbTdhE5: item.dbTdhE5,
         isActive: item.isActive,
       },
     });
@@ -67,6 +70,9 @@ export class AreaIndexComponent {
       .open(AreaEditComponent, {
         code: item.code,
         name: item.name,
+        dbTgbx: item.dbTgbx,
+        dbTdh: item.dbTdh,
+        dbTdhE5: item.dbTdhE5,
         isActive: item.isActive,
       })
       .subscribe((result) => {

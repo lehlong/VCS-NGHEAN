@@ -36,7 +36,7 @@ namespace DMS.BUSINESS.Services.MD
                 {
                     query = query.Where(x => x.IsActive == filter.IsActive);
                 }
-                query = query.OrderBy(x => x.Code);
+                query = query.OrderBy(x => x.Code).Include(x => x.Area).Include(x => x.Goods);
                 return await this.Paging(query, filter);
             }
             catch (Exception ex)
@@ -58,7 +58,7 @@ namespace DMS.BUSINESS.Services.MD
                 {
                     query = query.Where(x => x.IsActive == filter.IsActive);
                 }
-                query = query.OrderBy(x => x.Code);
+                query = query.OrderBy(x => x.Code).Include(x => x.Area).Include(x => x.Goods);
                 return _mapper.Map<IList<tblPumpThroatDto>>(await query.ToListAsync());
             }
             catch (Exception ex)

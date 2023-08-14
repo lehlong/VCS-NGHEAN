@@ -14,6 +14,7 @@ using NLog.Extensions.Logging;
 using DMS.CORE;
 using DMS.BUSINESS.Common.Class;
 using Microsoft.Extensions.FileProviders;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 
 //LogManager.Setup().LoadConfigurationFromFile(Path.Combine(Directory.GetCurrentDirectory(), "nlog.config"));
 var config = new ConfigurationBuilder()
@@ -109,10 +110,9 @@ builder.Services.AddMemoryCache();
 builder.Services.AddCors(options => options.AddPolicy("CorsPolicy",
         builder =>
         {
-            builder.AllowAnyHeader()
-                   .AllowAnyMethod()
-                   .SetIsOriginAllowed((host) => true)
-                   .AllowCredentials();
+            builder.WithOrigins("*")
+           .AllowAnyMethod()
+           .AllowAnyHeader();
         }));
 
 builder.Services.AddDIServices(builder.Configuration);
@@ -152,22 +152,21 @@ app.EnableRequestBodyRewind();
 app.UseHttpsRedirection();
 
 app.UseRouting();
+app.UseCors("CorsPolicy");
 
 app.UseAuthentication();
 
 app.UseAuthorization();
 
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapHub<OnlineCountHub>("/UserOnline");
+});
 app.UseStaticFiles(new StaticFileOptions
 {
     FileProvider = new PhysicalFileProvider(
            Path.Combine(builder.Environment.ContentRootPath, "uploads")),
     RequestPath = "/uploads"
-});
-
-app.UseCors("CorsPolicy");
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapHub<OnlineCountHub>("/UserOnline");
 });
 
 app.MapControllers();

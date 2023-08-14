@@ -37,7 +37,7 @@ export class PumpThroatEditComponent {
   optionsGoods: optionsGoods[] = [];
   filterGoods = new BaseFilter();
 
-  optionsPumpRig: optionsPumpRig[] = [];
+  optionsPumpRig: any[] = [];
   filterPumpRig = new BaseFilter();
 
   constructor(

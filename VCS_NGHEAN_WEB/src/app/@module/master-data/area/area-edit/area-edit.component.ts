@@ -18,6 +18,9 @@ export class AreaEditComponent {
   submitted: boolean = false;
   code: string = '';
   name: string = '';
+  dbTgbx: string = '';
+  dbTdh: string = '';
+  dbTdhE5: string = '';
   isActive: boolean | null = null;
   filter = new AreaFilter();
   optionsGroup: optionsGroup[] = [];
@@ -34,6 +37,9 @@ export class AreaEditComponent {
     this.areaForm = this._fb.group({
       code: [{value: '', disabled: true}],
       name: ['', [Validators.required, this.utils.trimSpace]],
+      dbTgbx: ['', [this.utils.trimSpace]],
+      dbTdh: ['', [this.utils.trimSpace]],
+      dbTdhE5: ['', [this.utils.trimSpace]],
       isActive: ['', Validators.required],
     });
     this.route.queryParams.subscribe((params) => {
@@ -51,6 +57,9 @@ export class AreaEditComponent {
   ngOnInit() {
     this.areaForm?.get('code')?.setValue(this.code);
     this.areaForm?.get('name')?.setValue(this.name);
+    this.areaForm?.get('dbTgbx')?.setValue(this.dbTgbx);
+    this.areaForm?.get('dbTdh')?.setValue(this.dbTdh);
+    this.areaForm?.get('dbTdhE5')?.setValue(this.dbTdhE5);
     this.areaForm?.get('isActive')?.setValue(this.isActive || false);
   }
 
@@ -65,6 +74,9 @@ export class AreaEditComponent {
     this.drawerService.close();
     this.areaForm?.get('code')?.setValue('');
     this.areaForm?.get('name')?.setValue('');
+    this.areaForm?.get('dbTgbx')?.setValue('');
+    this.areaForm?.get('dbTdh')?.setValue('');
+    this.areaForm?.get('dbTdhE5')?.setValue('');
     this.areaForm?.get('isActive')?.setValue(true);
   }
 
@@ -78,6 +90,9 @@ export class AreaEditComponent {
         {
           code: this.code.trim(),
           name: this.areaForm.value.name.trim(),
+          dbTdh: this.areaForm.value.dbTdh.trim(),
+          dbTgbx: this.areaForm.value.dbTgbx.trim(),
+          dbTdhE5: this.areaForm.value.dbTdhE5.trim(),
           isActive: this.areaForm.value.isActive,
         },
         false,

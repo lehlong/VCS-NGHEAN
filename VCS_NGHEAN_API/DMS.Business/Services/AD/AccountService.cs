@@ -42,7 +42,7 @@ namespace DMS.BUSINESS.Services.AD
                 {
                     query = query.Where(x => x.GroupId == filter.GroupId);
                 }
-                query = query.Include(x => x.AccountGroup).OrderBy(x => x.UserName);
+                query = query.Include(x => x.AccountGroup).OrderBy(x => x.UserName).Include(x => x.AccountType).Include(x => x.Area);
                 return await this.Paging(query, filter);
             }
             catch (Exception ex)

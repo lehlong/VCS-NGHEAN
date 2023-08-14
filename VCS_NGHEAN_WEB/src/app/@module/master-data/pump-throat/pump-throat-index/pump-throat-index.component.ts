@@ -9,6 +9,8 @@ import {PumpThroatModel} from 'src/app/models/MD/pump-throat.model';
 import Swal from 'sweetalert2';
 import {Router, ActivatedRoute} from '@angular/router';
 import {utils} from 'src/app/utils/utils';
+import { PumpRigService } from 'src/app/services/MD/pump-rig.service';
+import { BaseFilter } from 'src/app/@filter/Common/base-filter.model';
 @Component({
   selector: 'app-pump-throat-index',
   templateUrl: './pump-throat-index.component.html',
@@ -17,6 +19,7 @@ import {utils} from 'src/app/utils/utils';
 export class PumpThroatIndexComponent {
   constructor(
     private _pts: PumpThroatService,
+    private _prs : PumpRigService,
     private drawerService: DrawerService,
     private router: Router,
     private route: ActivatedRoute,
@@ -30,8 +33,11 @@ export class PumpThroatIndexComponent {
     });
   }
 
+  dataPumpRig: any[] = [];
+  filterPumpRig = new BaseFilter();
+
   //Khai báo biến
-  displayedColumns: string[] = ['index','code','name','areaCode','goodsCode','pumpRigCode', 'wattage','isActive', 'actions'];
+  displayedColumns: string[] = ['index','code','name','areaCode','goodsCode', 'wattage','isActive', 'actions'];
   paginationResult!: PaginationResult;
   filter = new PumpThroatFilter();
   optionsSate = [
@@ -41,7 +47,20 @@ export class PumpThroatIndexComponent {
 
   //Khai báo hàm
   ngOnInit(): void {
+    this.getAllPumpRig();
     this.loadInit();
+  }
+
+  getAllPumpRig() {
+    this.filterPumpRig.pageSize = 100;
+    this._prs.search(this.filterPumpRig).subscribe({
+      next: ({data}) => {
+        this.dataPumpRig = data.data;
+      },
+      error: (response) => {
+        console.log(response);
+      },
+    });
   }
 
   openCreate() {
@@ -65,7 +84,7 @@ export class PumpThroatIndexComponent {
         goodsCode : item.goodsCode,
         goodsName : item.goods?.name,
         pumpRigCode : item.pumpRigCode,
-        pumpRigName :item.pumpRig?.name,
+        pumpRigName :this.dataPumpRig.find(x => x.code == item.pumpRigCode)?.name,
         wattage : item.wattage
       },
     });
@@ -79,7 +98,7 @@ export class PumpThroatIndexComponent {
         goodsCode : item.goodsCode,
         goodsName : item.goods?.name,
         pumpRigCode : item.pumpRigCode,
-        pumpRigName :item.pumpRig?.name,
+        pumpRigName : this.dataPumpRig.find(x => x.code == item.pumpRigCode)?.name,
         wattage : item.wattage
       })
       .subscribe((result) => {

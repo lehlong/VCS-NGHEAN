@@ -37,7 +37,7 @@ namespace DMS.BUSINESS.Services.MD
                 {
                     query = query.Where(x => x.IsActive == filter.IsActive);
                 }
-                query = query.OrderBy(x => x.Name);
+                query = query.OrderBy(x => x.Name).Include(x => x.Area);
                 return await this.Paging(query, filter);
             }
             catch (Exception ex)
@@ -59,7 +59,7 @@ namespace DMS.BUSINESS.Services.MD
                 {
                     query = query.Where(x => x.IsActive == filter.IsActive);
                 }
-                query = query.OrderBy(x => x.Name);
+                query = query.OrderBy(x => x.Name).Include(x => x.Area);
                 return _mapper.Map<IList<tblCameraDto>>(await query.ToListAsync());
             }
             catch (Exception ex)

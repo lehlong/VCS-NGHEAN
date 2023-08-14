@@ -17,6 +17,9 @@ namespace DMS.CORE.Entities.MD
         [Required]
         [MaxLength(100)]
         public string Name { get; set; }
+        public string DbTgbx { get; set; }
+        public string DbTdh { get; set; }
+        public string DbTdhE5 { get; set; }
 
         public virtual List<tblMdPumpRig> ListPumpRig { get; set; }
         public virtual List<tblMdPumpThroat> ListPumpThroat { get; set; }

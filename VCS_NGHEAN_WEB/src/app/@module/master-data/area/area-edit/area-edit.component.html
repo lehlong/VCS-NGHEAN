@@ -40,6 +40,39 @@
         </div>
 
         <div>
+          <label class="col-form-label">Connect DB TGBX</label>
+          <div>
+            <input
+              [ngClass]="{'is-invalid': submitted && f['dbTgbx'].errors}"
+              type="text"
+              class="form-control"
+              formControlName="dbTgbx" />
+          </div>
+        </div>
+
+        <div>
+          <label class="col-form-label">Connect DB TĐH</label>
+          <div>
+            <input
+              [ngClass]="{'is-invalid': submitted && f['dbTdh'].errors}"
+              type="text"
+              class="form-control"
+              formControlName="dbTdh" />
+          </div>
+        </div>
+
+        <div>
+          <label class="col-form-label">Connect DB TĐH-E5</label>
+          <div>
+            <input
+              [ngClass]="{'is-invalid': submitted && f['dbTdhE5'].errors}"
+              type="text"
+              class="form-control"
+              formControlName="dbTdhE5" />
+          </div>
+        </div>
+
+        <div>
           <label for="inputText" class="col-form-label nowrap">Trạng thái</label>
           <div class="d-flex d-gap-20 w-100 mt-0">
             <div class="form-check">

@@ -22,10 +22,7 @@
         <div>
           <label for="inputText" class="col-form-label">Mã khu vực<span class="text-danger ms-1">*</span></label>
           <div>
-            <input
-              [ngClass]="{'is-invalid': submitted && f['code'].errors}"
-              type="text"
-              class="form-control"
+            <input [ngClass]="{'is-invalid': submitted && f['code'].errors}" type="text" class="form-control"
               formControlName="code" />
             <div *ngIf="submitted && f['code'].errors" class="invalid-feedback">
               <div *ngIf="f['code']['errors']['required']">Không được để trống</div>
@@ -35,14 +32,35 @@
         <div>
           <label for="inputName" class="col-form-label">Tên khu vực<span class="text-danger ms-1">*</span></label>
           <div>
-            <input
-              [ngClass]="{'is-invalid': submitted && f['name'].errors}"
-              type="text"
-              class="form-control"
+            <input [ngClass]="{'is-invalid': submitted && f['name'].errors}" type="text" class="form-control"
               formControlName="name" />
             <div *ngIf="submitted && f['name'].errors" class="invalid-feedback">
               <div *ngIf="f['name']['errors']['required']">Không được để trống</div>
             </div>
+          </div>
+        </div>
+
+        <div>
+          <label for="inputName" class="col-form-label">Connect DB TGBX</label>
+          <div>
+            <input [ngClass]="{'is-invalid': submitted && f['dbTgbx'].errors}" type="text" class="form-control"
+              formControlName="dbTgbx" />
+          </div>
+        </div>
+
+        <div>
+          <label for="inputName" class="col-form-label">Connect DB TĐH</label>
+          <div>
+            <input [ngClass]="{'is-invalid': submitted && f['dbTdh'].errors}" type="text" class="form-control"
+              formControlName="dbTdh" />
+          </div>
+        </div>
+
+        <div>
+          <label for="inputName" class="col-form-label">Connect DB TĐH-E5</label>
+          <div>
+            <input [ngClass]="{'is-invalid': submitted && f['dbTdhE5'].errors}" type="text" class="form-control"
+              formControlName="dbTdhE5" />
           </div>
         </div>
 

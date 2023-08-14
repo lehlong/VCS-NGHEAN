@@ -43,7 +43,7 @@
           </div>
   
           <div>
-            <label for="inputText" class="col-form-label">Nhóm tài khoản<span class="text-danger ms-1">*</span></label>
+            <label for="inputText" class="col-form-label">Thuộc khu vực<span class="text-danger ms-1">*</span></label>
             <div>
               <app-input-custom [className]="{ 'is-invalid': submitted && f['areaCode'].errors }"
                 [defaultValue]="areaName" [options]="optionsArea" [prop]="'name'" (valueChange)="onChangeArea($event)"

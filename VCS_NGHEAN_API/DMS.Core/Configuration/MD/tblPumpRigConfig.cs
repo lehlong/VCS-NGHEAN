@@ -12,7 +12,7 @@ namespace DMS.CORE.Configuration.MD
             builder.HasOne<tblMdArea>(x => x.Area)
                 .WithMany(g => g.ListPumpRig)
                 .HasForeignKey(x => x.AreaCode)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.SetNull).IsRequired(false);
         }
     }
 }
