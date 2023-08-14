@@ -51,6 +51,8 @@ namespace DMS.BUSINESS.Dtos.AD
         public string PhoneNumber { get; set; }
 
         public string Email { get; set; }
+        public string UserType { get; set; }
+        public string AreaCode { get; set; }
 
         public string Address { get; set; }
 

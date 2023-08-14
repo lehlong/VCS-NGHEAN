@@ -10,6 +10,8 @@ import Swal from 'sweetalert2';
 import {AccountEditComponent} from '../account-edit/account-edit.component';
 import {utils} from 'src/app/utils/utils';
 import { Router } from '@angular/router';
+import { UserTypeService } from 'src/app/services/MD/user-type.service';
+import { AreaService } from 'src/app/services/MD/area.service';
 
 @Component({
   selector: 'app-account-index',
@@ -22,6 +24,10 @@ export class AccountIndexComponent implements OnInit {
   filter = new AccountFilter();
   filterGroup = new BaseFilter();
   optionsGroup: optionsGroup[] = [];
+  filterArea = new BaseFilter();
+  optionsArea: any[] = [];
+  filterUserType = new BaseFilter();
+  optionsUserType: any[] = [];
   optionsSate = [
     {name: 'Đã kích hoạt', value: true},
     {name: 'Chưa kích hoạt', value: false},
@@ -30,11 +36,15 @@ export class AccountIndexComponent implements OnInit {
     private _as: AccountService,
     private _ds: DrawerService,
     private _ags: AccountGroupService,
+    private _areas: AreaService,
+    private _uts: UserTypeService,
     private utils: utils,
   ) {}
   ngOnInit(): void {
     this.loadInit();
     this.getAllGroup();
+    this.getAllArea();
+    this.getAllUserType();
   }
 
   search(currentPage: number = 1, pageSize: number | undefined = undefined, refresh: boolean = false) {
@@ -56,6 +66,30 @@ export class AccountIndexComponent implements OnInit {
     this._ags.search(this.filterGroup).subscribe({
       next: ({data}) => {
         this.optionsGroup = data.data;
+      },
+      error: (response) => {
+        console.log(response);
+      },
+    });
+  }
+
+  getAllArea() {
+    this.filterArea.pageSize = 100;
+    this._areas.search(this.filterArea).subscribe({
+      next: ({data}) => {
+        this.optionsArea = data.data;
+      },
+      error: (response) => {
+        console.log(response);
+      },
+    });
+  }
+
+  getAllUserType() {
+    this.filterUserType.pageSize = 100;
+    this._uts.search(this.filterUserType).subscribe({
+      next: ({data}) => {
+        this.optionsUserType = data.data;
       },
       error: (response) => {
         console.log(response);
@@ -89,6 +123,16 @@ export class AccountIndexComponent implements OnInit {
     });
   }
 
+  getNameUserType(code: string){
+    return this.optionsUserType.find((x: { id: string; }) => x.id == code)?.name;
+  }
+  getNameArea(code: string){
+    return this.optionsArea.find((x: { code: string; }) => x.code == code)?.name;
+  }
+  getNameGroup(code: string){
+    return this.optionsGroup.find((x: { id: string; }) => x.id == code)?.name;
+  }
+
   openEdit(item: any) {
     this._ds
       .open(AccountEditComponent, {
@@ -97,13 +141,13 @@ export class AccountIndexComponent implements OnInit {
         phoneNumber : item.phoneNumber,
         isActive: item.isActive,
         groupId: item.groupId,
-        groupName: item.accountGroup.name,
+        groupName: this.getNameGroup(item.groupId),
         userType : item.userType,
-        userTypeName : item.accountType?.name,
+        userTypeName : this.getNameUserType(item.userType),
         email : item?.email,
         address : item?.address,
         areaCode: item?.areaCode,
-        areaName: item.area?.name,
+        areaName: this.getNameArea(item?.areaCode),
       })
       .subscribe((result) => {
         if (result?.status && this.utils.checkComponent(AccountIndexComponent)) {
