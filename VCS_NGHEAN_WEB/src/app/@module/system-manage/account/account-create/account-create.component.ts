@@ -126,7 +126,8 @@ export class AccountCreateComponent implements OnInit {
     this.accountForm?.get('userType')?.setValue(item.id);
   }
   onSelectItemArea(item: any) {
-    this.accountForm?.get('areaCode')?.setValue(item.id);
+    console.log(item)
+    this.accountForm?.get('areaCode')?.setValue(item.code);
   }
   onCreate() {
     this.submitted = true;
