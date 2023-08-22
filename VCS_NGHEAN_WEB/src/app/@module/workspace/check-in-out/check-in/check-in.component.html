@@ -31,7 +31,7 @@
                         </div>
                         <div class="mb-3">
                             <button type="button" class="btn btn-secondary" (click)="refreshCamera();">
-                                <i class="bi bi-arrow-repeat"></i>
+                                <i class="bi bi-arrow-repeat"></i> Reset Camera
                             </button>
                         </div>
                     </div>
@@ -119,7 +119,7 @@
 
                         <div class="col-md-4">
                             <label>Tài xế</label>
-                            <ng-select [(ngModel)]="dataCheckIn.vehicle" [disabled]="imagePlate == imageThumbnails">
+                            <ng-select [(ngModel)]="dataCheckIn.driver" [disabled]="imagePlate == imageThumbnails">
                                         <ng-option *ngFor="let item of optionsVehicle"
                                             [value]="item?.code">{{item?.code}}</ng-option>
                                     </ng-select>

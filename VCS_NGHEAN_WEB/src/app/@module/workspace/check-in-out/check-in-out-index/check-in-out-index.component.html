@@ -5,15 +5,20 @@
                 <i class="bi bi-camera-video"></i>
                 KIỂM SOÁT VÀO RA
             </div>
-            <div class="col-md-3" *ngIf="userInfo?.userType == 'ADMIN' || userInfo?.userType == 'LANH_DAO'">
+            <div class="col-md-4" *ngIf="userInfo?.userType == 'ADMIN' || userInfo?.userType == 'LANH_DAO'">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-8">
                         <div>
                             <ng-select [(ngModel)]="currentArea" (change)="onSelectItemArea($event)">
                                 <ng-option *ngFor="let item of optionsArea"
                                     [value]="item.code">{{item?.name}}</ng-option>
                             </ng-select>
                         </div>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-secondary" (click)="resetCamera()">
+                            <i class="bi bi-arrow-repeat"></i> Reset Camera
+                        </button>
                     </div>
                 </div>
             </div>

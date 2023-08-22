@@ -10,6 +10,8 @@ using DMS.CORE;
 using System.Data;
 using Microsoft.Data.SqlClient;
 using DMS.BUSINESS.Models;
+using DMS.CORE.Entities.WS;
+using Microsoft.EntityFrameworkCore;
 
 namespace DMS.API.Controllers.WS
 {
@@ -68,6 +70,23 @@ namespace DMS.API.Controllers.WS
             CheckIn.Id = Guid.NewGuid();
             CheckIn.TimeCheckIn = DateTime.Now;
             var result = await _service.Add(CheckIn);
+
+            var countOrder = _context.tblWsOrderCar.AsQueryable();
+            var order = new tblWsOrderCar
+            {
+                Id = Guid.NewGuid(),
+                TimeCheckIn = DateTime.Now,
+                Order = countOrder.Count() == 0 ? 1 : countOrder.Max(x => x.Order) + 1,
+                Vehicle = CheckIn.Vehicle,
+                Driver = CheckIn.Driver,
+                Notes = CheckIn.Notes,
+                Status = CheckIn.Status,
+                DoSap = CheckIn.DoSap,
+                AreaCode = CheckIn.AreaCode,
+                IsActive = true
+            };
+            await _context.tblWsOrderCar.AddAsync(order);
+            await _context.SaveChangesAsync();
             if (_service.Status)
             {
                 transferObject.Data = result;

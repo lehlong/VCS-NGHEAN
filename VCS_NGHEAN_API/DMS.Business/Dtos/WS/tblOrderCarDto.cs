@@ -9,12 +9,12 @@ using DMS.CORE.Entities.WS;
 
 namespace DMS.BUSINESS.Dtos.WS
 {
-    public class tblCheckInDto : BaseMdDto, IMapFrom, IDto
+    public class tblOrderCarDto : BaseMdDto, IMapFrom, IDto
     {
         [Key]
         public Guid Id { get; set; }
         public DateTime TimeCheckIn { get; set; }
-        public DateTime TimeCheckOut { get; set; }
+        public int Order { get; set; }
         public string Notes { get; set; }
         public string Status { get; set; }
         public string Vehicle { get; set; }
@@ -24,7 +24,7 @@ namespace DMS.BUSINESS.Dtos.WS
 
         public void Mapping(Profile profile)
         {
-            profile.CreateMap<tblWsCheckIn, tblCheckInDto>().ReverseMap();
+            profile.CreateMap<tblWsOrderCar, tblOrderCarDto>().ReverseMap();
         }
     }
 }

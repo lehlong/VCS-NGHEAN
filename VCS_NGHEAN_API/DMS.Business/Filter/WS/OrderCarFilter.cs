@@ -2,12 +2,12 @@
 
 namespace DMS.BUSINESS.Filter.WS
 {
-    public class CheckInFilter : BaseFilter
+    public class OrderCarFilter : BaseFilter
     {
-        
+
     }
 
-    public class CheckInFilterLite
+    public class OrderCarFilterLite
     {
         public bool? IsActive { get; set; }
     }

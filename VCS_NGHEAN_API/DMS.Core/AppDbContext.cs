@@ -170,6 +170,7 @@ namespace DMS.CORE
 
         #region Workspace
         public DbSet<tblWsCheckIn> tblWsCheckIn { get; set; }
+        public DbSet<tblWsOrderCar> tblWsOrderCar { get; set; }
 
         #endregion
     }

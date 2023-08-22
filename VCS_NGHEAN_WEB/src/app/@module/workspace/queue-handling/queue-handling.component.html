@@ -1,0 +1,92 @@
+<div class="card">
+    <div class="card-body container-page">
+      <div class="d-flex-wrap d-gap d-space-bw mt-3">
+        <div class="card-title mb-2 p-0">
+          <i class="bi bi-journal-text"></i>
+          DANH SÁCH XE ĐANG XẾP HÀNG
+        </div>
+        <div class="d-flex-wrap d-gap">
+          <div *ngIf="filter" class="mb-3">
+            <div class="input-group search-box">
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="filter.keyWord"
+                (keyup.enter)="search()"
+                placeholder="Nhập từ khóa tìm kiếm" />
+              <span (click)="search()" class="input-group-text"><i class="bi bi-search"></i></span>
+              <span (click)="search(1, filter.pageSize, true)" class="input-group-text"
+                ><i class="bi bi-arrow-clockwise"></i
+              ></span>
+              &nbsp;
+            </div>
+          </div>
+          <div class="mb-3">
+            <button type="button" class="btn btn-primary" routerLink="/DisplayOrder">
+                <i class="bi bi-display"></i> Màn hình thông báo
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="list-container border-top border-bottom mb-3">
+        <table
+          mat-table
+          [dataSource]="paginationResult.data"
+          *ngIf="paginationResult"
+          class="table table-hover table-click-row">
+        
+          <ng-container matColumnDef="order">
+            <th mat-header-cell *matHeaderCellDef>Số thứ tự</th>
+            <td mat-cell *matCellDef="let element" >{{ element?.order }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="vehicle">
+            <th mat-header-cell *matHeaderCellDef>Biển số xe</th>
+            <td mat-cell *matCellDef="let element">{{ element?.vehicle }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="driver">
+            <th mat-header-cell *matHeaderCellDef>Tài xế</th>
+            <td mat-cell *matCellDef="let element" >{{ element?.driver }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="notes">
+            <th mat-header-cell *matHeaderCellDef>Ghi chú</th>
+            <td mat-cell *matCellDef="let element">{{ element?.notes }}</td>
+          </ng-container>
+  
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef style="text-align: center; width: 200px;" >Hành động</th>
+            <td mat-cell *matCellDef="let element" class="text-center">
+                <button type="button" class="btn btn-success" style="margin-right: 10px;" *ngIf="element?.notes == ''">
+                    <i class="bi bi-activity"></i> Xử lý
+                </button>
+                <button type="button" class="btn btn-secondary" style="margin-right: 10px;" *ngIf="element?.notes != ''">
+                    <i class="bi bi-arrow-repeat"></i> Xử lý lại
+                </button>
+              <button type="button" class="btn btn-danger" (click)="deleteArea(element)">
+                <i class="bi bi-x-lg"></i> Huỷ
+            </button>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="border-bottom"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumns"
+           ></tr>
+        </table>
+        <app-empty *ngIf="!paginationResult || paginationResult.data?.length == 0"></app-empty>
+      </div>
+      <div class="float-end" *ngIf="paginationResult">
+        <app-pagination
+          [pageSize]="paginationResult.pageSize"
+          [totalRecord]="paginationResult.totalRecord"
+          [totalPage]="paginationResult.totalPage"
+          [(page)]="paginationResult.currentPage"
+          (pageChange)="onChangePage($event)"
+          (pageSizeChange)="pageSizeChange($event)"></app-pagination>
+      </div>
+    </div>
+  </div>
+  

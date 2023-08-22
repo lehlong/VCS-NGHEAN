@@ -41,7 +41,6 @@ export class VehicleEditComponent {
       code: [{ value: '', disabled: true }],
       imagePlate: ['', [this.utils.trimSpace]],
       imageCar: ['', [this.utils.trimSpace]],
-      note: ['', [Validators.required]],
       isActive: ['true', [Validators.required]],
     });
     this.route.queryParams.subscribe((params) => {

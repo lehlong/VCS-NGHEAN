@@ -1,7 +1,7 @@
-export interface CheckInModel {
+export interface OrderCarModel {
     id: string;
+    order : number;
     timeCheckIn?: Date;
-    timeCheckOut?: Date;
     notes?: string;
     status?: string;
     vehicle?: string;

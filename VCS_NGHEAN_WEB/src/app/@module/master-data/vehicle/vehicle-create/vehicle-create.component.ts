@@ -34,7 +34,6 @@ export class VehicleCreateComponent {
       code: ['', [Validators.required, this.utils.trimSpace]],
       imageCar: ['', [Validators.required, this.utils.trimSpace]],
       imagePlate: ['', [Validators.required, this.utils.trimSpace]],
-      note: ['', [Validators.required]],
       isActive: 'true',
     });
   }

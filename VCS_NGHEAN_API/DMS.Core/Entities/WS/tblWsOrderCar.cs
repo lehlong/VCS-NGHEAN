@@ -1,19 +1,19 @@
 ﻿using DMS.CORE.Common;
-using DMS.CORE.Entities.AD;
-using DMS.CORE.Entities.SO;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace DMS.CORE.Entities.WS
 {
-    [Table("tblWsCheckIn")]
-    public class tblWsCheckIn : BaseEntity
+    public class tblWsOrderCar : BaseEntity
     {
         [Key]
         public Guid Id { get; set; }
         public DateTime TimeCheckIn { get; set; }
-        public DateTime TimeCheckOut { get; set; }
+        public int Order { get; set; }
         public string Notes { get; set; }
         public string Status { get; set; }
         public string Vehicle { get; set; }

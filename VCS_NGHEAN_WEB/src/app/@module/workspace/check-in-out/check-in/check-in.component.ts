@@ -22,8 +22,12 @@ export class CheckInComponent implements OnInit {
   dataCheckIn: CheckInModel = {
     id: GuidEmpty,
     timeCheckIn: new Date(),
+    timeCheckOut: new Date(),
+    notes: '',
+    status:'',
     vehicle: '',
     driver: '',
+    areaCode : this.userInfo.areaCode,
     doSap: '',
     isActive: true,
   }

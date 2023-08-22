@@ -5,6 +5,7 @@ import { CameraModel } from 'src/app/models/MD/camera.model';
 import { GlobalService } from 'src/app/services/Common/global.service';
 import { AreaService } from 'src/app/services/MD/area.service';
 import { CameraService } from 'src/app/services/MD/camera.service';
+import { CheckInService } from 'src/app/services/WS/check-in.service';
 declare var flvjs: any
 
 @Component({
@@ -21,13 +22,14 @@ export class CheckInOutIndexComponent implements OnInit {
   filterCamera = new BaseFilter();
   allCamera: CameraModel[] = [];
 
-  currentArea : string = this.userInfo.areaCode;
+  currentArea: string = this.userInfo.areaCode;
 
   cameraIn?: string = '';
   cameraOut?: string = '';
 
   constructor(
     private _gs: GlobalService,
+    private _cis: CheckInService,
     private _cs: CameraService,
     private _areas: AreaService,
   ) { }
@@ -35,6 +37,14 @@ export class CheckInOutIndexComponent implements OnInit {
   ngOnInit(): void {
     this.getAllArea();
     this.getAllCamera();
+  }
+
+  resetCamera() {
+    this._cis.ResetCamera(true).subscribe({
+      next:() =>{
+        window.location.reload();
+      }
+    });
   }
 
   getAllArea() {

@@ -5,7 +5,6 @@ export class CameraFilter extends BaseFilter {
   name: string = '';
   sourceRtsp: string ='';
   linkPlay:string= '';
-  areaCode :string= '';
   inOut : string = '';
   
   isActive: boolean | string = '';

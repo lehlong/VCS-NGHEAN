@@ -3,7 +3,6 @@ import {BaseFilter} from '../Common/base-filter.model';
 export class PumpThroatFilter extends BaseFilter {
   code: string = '';
   name: string = '';
-  areaCode :string = '';
   isActive: boolean | string = '';
 }
 export interface optionsArea {

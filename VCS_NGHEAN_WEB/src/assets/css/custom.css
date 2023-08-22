@@ -270,3 +270,10 @@ td {
 .swal2-title {
   font-size: 18px !important;
 }
+
+div:where(.swal2-container).swal2-center>.swal2-popup {
+  border-radius: 0 !important;
+}
+[type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
+  border-radius: 0 !important;
+}

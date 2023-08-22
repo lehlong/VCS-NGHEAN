@@ -17,6 +17,7 @@ import { MatTableModule } from '@angular/material/table';
 import { CheckInOutIndexComponent } from './check-in-out/check-in-out-index/check-in-out-index.component';
 import { CheckInComponent } from './check-in-out/check-in/check-in.component';
 import { CheckOutComponent } from './check-in-out/check-out/check-out.component';
+import { QueueHandlingComponent } from './queue-handling/queue-handling.component';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { CheckOutComponent } from './check-in-out/check-out/check-out.component'
     CheckInOutIndexComponent,
     CheckInComponent,
     CheckOutComponent,
+    QueueHandlingComponent,
   ],
   imports: [
     MatTableModule,
