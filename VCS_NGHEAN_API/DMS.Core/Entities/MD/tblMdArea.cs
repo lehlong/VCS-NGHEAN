@@ -20,6 +20,8 @@ namespace DMS.CORE.Entities.MD
         public string DbTgbx { get; set; }
         public string DbTdh { get; set; }
         public string DbTdhE5 { get; set; }
+        public string DbSmo { get; set; }
+        public string SupplyPlantSmo { get; set; }
 
         public virtual List<tblMdPumpRig> ListPumpRig { get; set; }
         public virtual List<tblMdPumpThroat> ListPumpThroat { get; set; }

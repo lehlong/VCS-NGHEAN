@@ -15,8 +15,6 @@ declare var flvjs: any
 export class CheckInOutIndexComponent implements OnInit {
 
   userInfo = this._gs.getUserInfo();
-  canPlayStreamIn: boolean = true;
-  canPlayStreamOut: boolean = true;
 
   optionsArea: any[] = [];
   filterArea = new BaseFilter();
@@ -93,7 +91,6 @@ export class CheckInOutIndexComponent implements OnInit {
         flvPlayer_in.load();
       }
     } catch (ex) {
-      this.canPlayStreamIn = false
     }
 
     try {
@@ -108,7 +105,6 @@ export class CheckInOutIndexComponent implements OnInit {
         flvPlayer_out.load();
       }
     } catch (ex) {
-      this.canPlayStreamOut = false
     }
 
     let vidIn: any = document.getElementById("stream_in");

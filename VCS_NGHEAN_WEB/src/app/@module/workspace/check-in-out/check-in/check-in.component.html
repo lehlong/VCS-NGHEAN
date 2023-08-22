@@ -90,8 +90,11 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Đơn hàng SMO</label>
-                                <input type="text" class="form-control">
+                                <label>Số DO SAP</label>
+                                <ng-select [(ngModel)]="dataCheckIn.doSap">
+                                    <ng-option *ngFor="let item of lstOrderSmo"
+                                        [value]="item?.doSap">{{item?.doSap}}</ng-option>
+                                </ng-select>
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -148,22 +151,18 @@
                 <table class="table table-hover table-bordered" style="min-width: auto !important;">
                     <thead>
                         <tr>
-                            <th scope="col">Số đơn hàng SMO</th>
+                            <th scope="col">Số DO SAP</th>
                             <th scope="col">Thời gian</th>
-                            <th scope="col">Mặt hàng</th>
-                            <th scope="col">Số lượng</th>
                             <th scope="col">Biển số xe</th>
                             <th scope="col">Tên lái xe</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th>1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
-                            <td>@mdo</td>
+                        <tr *ngFor="let item of lstOrderSmo">
+                            <th>{{item?.doSap}}</th>
+                            <td>{{item?.time | date:'dd/MM/yyyy hh:mm'}}</td>
+                            <td>{{item?.vehicle}}</td>
+                            <td>{{item?.driver}}</td>
                         </tr>
                     </tbody>
                 </table>

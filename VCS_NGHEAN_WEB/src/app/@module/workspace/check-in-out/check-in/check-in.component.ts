@@ -35,6 +35,8 @@ export class CheckInComponent implements OnInit {
   optionsVehicle: any[] = [];
   filterVehicle = new BaseFilter();
 
+  lstOrderSmo : any[] =[];
+
   constructor(
     private _gs: GlobalService,
     private _vs: VehicleService,
@@ -44,6 +46,7 @@ export class CheckInComponent implements OnInit {
   ngOnInit(): void {
     this.getAllCamera();
     this.getAllVehicle();
+    this.getListOrderSmo();
   }
 
   intervalTime = setInterval(() => { this.dataCheckIn.timeCheckIn = new Date() }, 1000)
@@ -54,6 +57,17 @@ export class CheckInComponent implements OnInit {
       next: ({ data }) => {
         this.cameraIn = data?.data?.find((x: { areaCode: any; inOut: string; }) => x.areaCode == this.userInfo.areaCode && x.inOut == 'in')?.linkPlay;
         this.playStreamCamera(this.cameraIn)
+      },
+      error: (response) => {
+        console.log(response);
+      },
+    });
+  }
+
+  getListOrderSmo() {
+    this._cis.GetListOrderSmo(this.userInfo.areaCode).subscribe({
+      next: ({ data }) => {
+        this.lstOrderSmo = data;
       },
       error: (response) => {
         console.log(response);
@@ -107,7 +121,7 @@ export class CheckInComponent implements OnInit {
   }
 
   refreshCamera() {
-    window.location.reload();
+    this._cis.ResetCamera(true);
   }
 
   refreshTime() {

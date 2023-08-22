@@ -27,10 +27,7 @@
                             Camera cổng vào
                         </div>
                     </div>
-
-                    <img *ngIf="canPlayStreamIn == false" src="../../../../../assets/img/video-thumbnails.jpg" alt=""
-                        width="100%">
-                    <video *ngIf="canPlayStreamIn == true" id="stream_in" autoplay width="100%"></video>
+                    <video id="stream_in" autoplay width="100%"></video>
                 </div>
                 <div class="col-md-6">
                     <div class="d-flex-wrap d-gap d-space-bw mt-3">
@@ -39,10 +36,7 @@
                             Camera cổng ra
                         </div>
                     </div>
-
-                    <img *ngIf="canPlayStreamOut == false" src="../../../../../assets/img/video-thumbnails.jpg" alt=""
-                        width="100%">
-                    <video *ngIf="canPlayStreamOut == true" id="stream_out" autoplay width="100%"></video>
+                    <video id="stream_out" autoplay width="100%"></video>
                 </div>
             </div>
         </div>

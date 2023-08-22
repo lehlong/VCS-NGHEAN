@@ -1,5 +1,5 @@
 <aside [ngClass]="{'sidebar-hidden': !show, 'sidebar-visible': show}" id="sidebar" class="sidebar">
-	<div class="user-info">
+	<!-- <div class="user-info">
 		<div class="image">
 			<img src="../assets/img/UserLogo.jpg" width="48" height="48" alt="User">
 		</div>
@@ -30,7 +30,7 @@
 				  </ul>
 			</div>
 		</div>
-	</div>
+	</div> -->
 	<ul class="sidebar-nav" id="sidebar-nav">
 		<li *ngFor="let item of dataSource; index as i" class="nav-item">
 			<a *ngIf="!item?.children || item?.children?.length == 0" class="nav-link collapsed"

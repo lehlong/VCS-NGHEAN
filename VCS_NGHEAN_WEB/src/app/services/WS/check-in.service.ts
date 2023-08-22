@@ -33,4 +33,12 @@ export class CheckInService {
   CaptureImage(username: string, isLoading?: boolean) {
     return this._commonService.getRequest(`CheckIn/CaptureImage/${username}`);
   }
+
+  GetListOrderSmo(areaCode: string, isLoading?: boolean) {
+    return this._commonService.getRequest(`CheckIn/GetListOrderSmo/${areaCode}`);
+  }
+
+  ResetCamera(isLoading?: boolean) {
+    return this._commonService.getRequest(`CheckIn/ResetCamera`);
+  }
 }

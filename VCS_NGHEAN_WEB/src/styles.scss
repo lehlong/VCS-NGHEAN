@@ -171,7 +171,7 @@ body {
 form {
   .is-invalid.ng-invalid {
     border: 1px solid #dc3545 !important;
-    border-radius: 2px !important;
+    border-radius: 0 !important;
   }
   .is-invalid ~ .invalid-feedback,
   .is-invalid ~ .invalid-tooltip,
@@ -299,7 +299,7 @@ td {
 --------------------------------------------------------------*/
 /* Dropdown menus */
 .dropdown-menu {
-  border-radius: 4px;
+  border-radius: 0;
   padding: 10px 0;
   animation-name: dropdown-animate;
   animation-duration: 0.2s;

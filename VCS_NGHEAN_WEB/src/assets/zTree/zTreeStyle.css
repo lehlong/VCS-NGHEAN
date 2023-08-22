@@ -65,7 +65,7 @@ website:	http://code.google.com/p/jquerytree/
 	color: black;
 	font-weight: bold;
 	padding: 6px !important;
-	border-radius: 2px;
+	border-radius: 0;
 	border: none !important;
 }
 

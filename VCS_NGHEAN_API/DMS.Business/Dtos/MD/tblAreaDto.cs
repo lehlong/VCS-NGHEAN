@@ -19,6 +19,8 @@ namespace DMS.BUSINESS.Dtos.MD
         public string DbTgbx { get; set; }
         public string DbTdh { get; set; }
         public string DbTdhE5 { get; set; }
+        public string DbSmo { get; set; }
+        public string SupplyPlantSmo { get; set; }
         public List<tblMdPumpRig> ListPumpRig { get; set; }
         public List<tblAdAccount> ListAccount { get; set; }
         public List<tblMdCamera> ListCamera { get; set; }

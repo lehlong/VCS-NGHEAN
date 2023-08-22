@@ -202,7 +202,7 @@
   color: #373d3f;
   font-size: 13px;
   text-align: center;
-  border-radius: 2px;
+  border-radius: 0;
   position: absolute;
   z-index: 10;
   background: #eceff1;

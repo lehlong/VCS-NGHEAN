@@ -85,7 +85,7 @@ h6 {
   background: #0060af;
   width: 40px;
   height: 40px;
-  border-radius: 2px;
+  border-radius: 0;
   transition: all 0.4s;
 }
 
@@ -110,7 +110,7 @@ h6 {
 --------------------------------------------------------------*/
 /* Dropdown menus */
 .dropdown-menu {
-  border-radius: 2px;
+  border-radius: 0;
   padding: 10px 0;
   animation-name: dropdown-animate;
   animation-duration: 0.2s;
@@ -225,7 +225,7 @@ h6 {
 .card {
   margin-bottom: 30px;
   border: none;
-  border-radius: 2px !important;
+  border-radius: 0 !important;
   box-shadow: 0px 0 40px rgba(1, 41, 112, 0.1);
 }
 
@@ -278,7 +278,7 @@ h6 {
 /* Close Button */
 .btn{
   margin: 0px 6px;
-  border-radius: 2px !important;
+  border-radius: 0 !important;
 }
 .btn-close {
   background-size: 25%;
@@ -449,7 +449,7 @@ h6 {
   color: #333333;
   border: 1px solid rgba(1, 41, 112, 0.2);
   padding: 7px 38px 7px 8px;
-  border-radius: 2px;
+  border-radius: 0;
   transition: 0.3s;
   width: 100%;
 }
@@ -708,7 +708,7 @@ h6 {
   transition: 0.3;
   background: #f6f9ff;
   padding: 10px 15px;
-  border-radius: 2px;
+  border-radius: 0;
   font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue","Noto Sans","Liberation Sans",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";
   cursor: pointer;
 }
@@ -770,7 +770,7 @@ h6 {
   font-size: 6px;
   margin-right: 8px;
   line-height: 0;
-  border-radius: 2px;
+  border-radius: 0;
 }
 
 .sidebar-nav .nav-content a:hover,
@@ -888,7 +888,7 @@ h6 {
   z-index: 1;
   font-size: 11px;
   line-height: 0;
-  border-radius: 2px;
+  border-radius: 0;
   flex-shrink: 0;
   border: 3px solid #fff;
   flex-grow: 0;
@@ -915,7 +915,7 @@ h6 {
 .dashboard .news img {
   width: 80px;
   float: left;
-  border-radius: 2px;
+  border-radius: 0;
 }
 
 .dashboard .news h4 {
@@ -979,7 +979,7 @@ h6 {
 }
 
 .dashboard .top-selling img {
-  border-radius: 2px;
+  border-radius: 0;
   max-width: 60px;
 }
 
@@ -996,7 +996,7 @@ h6 {
 
 .iconslist .icon {
   background-color: #fff;
-  border-radius: 2px;
+  border-radius: 0;
   text-align: center;
   color: #333333;
   padding: 15px 0;
@@ -1144,7 +1144,7 @@ h6 {
 .contact .php-email-form .loading:before {
   content: "";
   display: inline-block;
-  border-radius: 2px;
+  border-radius: 0;
   width: 24px;
   height: 24px;
   margin: 0 10px -6px 0;
@@ -1155,7 +1155,7 @@ h6 {
 
 .contact .php-email-form input,
 .contact .php-email-form textarea {
-  border-radius: 2px;
+  border-radius: 0;
   box-shadow: none;
   font-size: 14px;
 }
@@ -1179,7 +1179,7 @@ h6 {
   padding: 10px 30px;
   color: #fff;
   transition: 0.4s;
-  border-radius: 2px;
+  border-radius: 0;
 }
 
 .contact .php-email-form button[type=submit]:hover {
