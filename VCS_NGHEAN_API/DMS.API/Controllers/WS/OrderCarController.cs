@@ -160,8 +160,6 @@ namespace DMS.API.Controllers.WS
 
                     check = data.Tables[0].Rows[0][0].ToString();
                 }
-
-
             }
             catch (Exception ex)
             {
